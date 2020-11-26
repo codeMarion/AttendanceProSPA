@@ -1,10 +1,13 @@
-import React from 'react';
+import React from "react";
+import { ThemeProvider } from "@material-ui/core/styles";
+import Theme from "./config/Theme";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <>
-      <h1>Welcome to AttendancePro</h1>
-    </>
+    <ThemeProvider theme={Theme}>
+      <Layout />
+    </ThemeProvider>
   );
 }
 
