@@ -15,7 +15,7 @@ You will need `git` installed globally on your machine to clone this repository.
 
 To clone the repository run the following command in the terminal:
 
-`git clone https://github.com/codeMarion/AttendancePro-SPA.git`
+`git clone https://github.com/codeMarion/AttendanceProSPA.git`
 
 
 You will need `node` and `npm` installed globally on your machine.  
