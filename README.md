@@ -24,6 +24,8 @@ To install necessary dependencies, run the following command in the terminal:
 
 `npm install`  
 
+Copy `env.example` and add the relevant environment variables and rename the file to `.env`.
+
 To start the application run the following command in the terminal:
 
 `npm start`  
