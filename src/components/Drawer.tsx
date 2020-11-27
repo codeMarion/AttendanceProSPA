@@ -21,9 +21,9 @@ function Drawer() {
         {Routes.map((tab,i) => (
           <ListItem button key={i} component={Link} to={tab.path}>
             <ListItemIcon>
-                <tab.logo style={{color: 'darkgrey'}}/>
+                <tab.logo className={classes.tabColor}/>
             </ListItemIcon>
-            <ListItemText primary={tab.title} style={{color: 'darkgrey'}} />
+            <ListItemText primary={tab.title} className={classes.tabColor} />
           </ListItem>
         ))}
       </List>

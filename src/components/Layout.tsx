@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, CssBaseline, Hidden, IconButton, Toolbar, Drawer as DrawerMUI } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import LayoutStyles from "../styles/LayoutStyles";
@@ -6,10 +6,16 @@ import Drawer from "./Drawer";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Routes from "../config/Routes";
 import TopBar from "./TopBar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Layout = () => {
+  const Auth0 = useAuth0();
   const [mobileOpen, setMobileOpen] = useState(false);
   const classes = LayoutStyles();
+
+  useEffect(() => {
+    Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
+  },[])
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
