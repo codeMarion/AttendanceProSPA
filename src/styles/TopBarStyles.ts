@@ -32,8 +32,12 @@ const TopBarStyles = makeStyles((theme: Theme) =>
       inputRoot: {
         color: 'inherit',
       },
+      avatarDropDown: {
+        marginLeft: "10px", 
+        cursor: "pointer"
+      },
       inputInput: {
-        padding: theme.spacing(1.3, 1, 1, 0),
+        padding: theme.spacing(2, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),

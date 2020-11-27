@@ -41,6 +41,9 @@ const LayoutStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       cursor: 'pointer'
+    },
+    tabColor:{
+      color: 'darkgrey'
     }
   }),
 );
