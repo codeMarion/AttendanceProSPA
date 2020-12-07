@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Routes from "../config/Routes";
 import TopBar from "./TopBar";
 import { useAuth0 } from "@auth0/auth0-react";
+import Profile from "./Profile";
 
 const Layout = () => {
   const Auth0 = useAuth0();
@@ -63,6 +64,7 @@ const Layout = () => {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
+          <Profile />
           {Routes.map((tab, i) => (
             <Route key={i} exact path={tab.path} component={tab.component} />
           ))}
