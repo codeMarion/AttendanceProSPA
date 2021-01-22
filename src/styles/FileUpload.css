@@ -1,0 +1,12 @@
+.upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: pink;
+    height: 8rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    border: 1px dashed black;
+}

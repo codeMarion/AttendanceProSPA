@@ -5,14 +5,20 @@ import Layout from "./components/Layout";
 import { useAuth0 } from "@auth0/auth0-react";
 import Login from "./views/Login";
 import { UserContextProvider } from "./context/UserContext";
+import { UploadContextProvider } from "./context/UploadContext";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const Auth0 = useAuth0();
   return (
     <UserContextProvider>
-      <ThemeProvider theme={Theme}>
-        {Auth0.isAuthenticated ? <Layout /> : <Login />}
-      </ThemeProvider>
+      <UploadContextProvider>
+        <ThemeProvider theme={Theme}>
+          <SnackbarProvider>
+            {Auth0.isAuthenticated ? <Layout /> : <Login />}
+          </SnackbarProvider>
+        </ThemeProvider>
+      </UploadContextProvider>
     </UserContextProvider>
   );
 }
