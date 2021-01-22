@@ -1,11 +1,11 @@
 import AuthConfig from "../config/AuthConfig";
-import UserModel from "../models/UserModel";
+import UploadModel from "../models/UploadModel";
 
-export default class UserController 
+export default class FileController 
 {
-    public async updateUser(accessToken: string, body: UserModel){
-        await fetch(`${AuthConfig.API_URL}/User`,{
-            method: 'PATCH',
+    public async uploadData(accessToken: string, body: UploadModel[]){
+        await fetch(`${AuthConfig.API_URL}/File`,{
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
