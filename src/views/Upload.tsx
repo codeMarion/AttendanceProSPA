@@ -32,17 +32,21 @@ const Upload = () => {
   const { enqueueSnackbar } = useSnackbar();
   const fileController = new FileController();
   const Auth0 = useAuth0();
+  const [accessToken, setAccessToken] = useState("");
   
-  const handleNext = () => {
+  const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if(activeStep === 1){
-      Auth0.getAccessTokenSilently().then((accessToken) => {
-        fileController.uploadData(accessToken, uploadContext.uploadedData)
-      })
-      setActiveStep(0);
-      uploadContext.setUploadedData([]);
-      history.push("/");
-      enqueueSnackbar('Data uploaded successfully!', { variant: "success" });
+      Auth0.getAccessTokenSilently().then(token => setAccessToken(token))
+      const response = await fileController.uploadData(accessToken, uploadContext.uploadedData)
+      if(response){
+        setActiveStep(0);
+        uploadContext.setUploadedData([]);
+        history.push("/");
+        enqueueSnackbar('Data uploaded successfully!', { variant: "success" });
+      }else{
+        enqueueSnackbar('Error occurred while uploading data!', { variant: "error" });
+      }
     }
   };
 
