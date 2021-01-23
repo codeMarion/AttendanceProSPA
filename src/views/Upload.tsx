@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Stepper, Step, StepLabel, Button, Typography } from "@material-ui/core";
 import StepperStyles from "../styles/StepperStyles";
 import FileUpload from "../components/FileUpload";
@@ -32,17 +32,25 @@ const Upload = () => {
   const { enqueueSnackbar } = useSnackbar();
   const fileController = new FileController();
   const Auth0 = useAuth0();
+  const [accessToken, setAccessToken] = useState("");
+
+  useEffect(() => {
+    Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
+  },[Auth0])
   
-  const handleNext = () => {
+  const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if(activeStep === 1){
-      Auth0.getAccessTokenSilently().then((accessToken) => {
-        fileController.uploadData(accessToken, uploadContext.uploadedData)
-      })
       setActiveStep(0);
-      uploadContext.setUploadedData([]);
       history.push("/");
-      enqueueSnackbar('Data uploaded successfully!', { variant: "success" });
+      enqueueSnackbar('Data is being uploaded!', { variant: "info" });      
+      const response = await fileController.uploadData(accessToken, uploadContext.uploadedData)
+      if(response){
+        uploadContext.setUploadedData([]);
+        enqueueSnackbar('Data uploaded successfully!', { variant: "success" });
+      }else{
+        enqueueSnackbar('Error occurred while uploading data!', { variant: "error" });
+      }
     }
   };
 
