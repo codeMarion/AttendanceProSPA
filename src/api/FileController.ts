@@ -3,8 +3,8 @@ import UploadModel from "../models/UploadModel";
 
 export default class FileController 
 {
-    public async uploadData(accessToken: string, body: UploadModel[]){
-        await fetch(`${AuthConfig.API_URL}/File`,{
+    public async uploadData(accessToken: string, body: UploadModel[]) : Promise<boolean> {
+        const response = await fetch(`${AuthConfig.FUNCTIONS_URL}/File`,{
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
@@ -12,5 +12,6 @@ export default class FileController
                 "Content-Type": "application/json"
             }
         });
+        return response.ok;
     }
 }
