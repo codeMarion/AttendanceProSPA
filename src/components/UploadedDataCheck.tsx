@@ -25,7 +25,7 @@ export default function UploadedDataCheck() {
       const newRows = uploadContext.uploadedData.map((row,i) => {
           return { 
             id: i+1, 
-            user: row.user, 
+            userId: row.userId, 
             studyLevel: row.studyLevel, 
             courseYear: row.courseYear,
             regStatus: row.regStatus,
