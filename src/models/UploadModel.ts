@@ -1,6 +1,6 @@
 export default interface UploadModel{
     id: number;
-    user: number;
+    userId: number;
     studyLevel: string;
     courseYear: string;
     regStatus: string;

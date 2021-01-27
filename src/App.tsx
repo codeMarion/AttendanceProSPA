@@ -7,17 +7,20 @@ import Login from "./views/Login";
 import { UserContextProvider } from "./context/UserContext";
 import { UploadContextProvider } from "./context/UploadContext";
 import { SnackbarProvider } from "notistack";
+import { AppContextProvider } from "./context/AppContext";
 
 function App() {
   const Auth0 = useAuth0();
   return (
     <UserContextProvider>
       <UploadContextProvider>
-        <ThemeProvider theme={Theme}>
-          <SnackbarProvider>
-            {Auth0.isAuthenticated ? <Layout /> : <Login />}
-          </SnackbarProvider>
-        </ThemeProvider>
+        <AppContextProvider>
+          <ThemeProvider theme={Theme}>
+            <SnackbarProvider>
+              {Auth0.isAuthenticated ? <Layout /> : <Login />}
+            </SnackbarProvider>
+          </ThemeProvider>
+        </AppContextProvider>
       </UploadContextProvider>
     </UserContextProvider>
   );

@@ -5,11 +5,13 @@ import TopBarStyles from "../styles/TopBarStyles";
 import Avatar from "@material-ui/core/Avatar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../context/UserContext";
+import { AppContext } from "../context/AppContext";
 const TopBar = () => {
   const Auth0 = useAuth0();
   const classes = TopBarStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const userContext = useContext(UserContext)
+  const appContext = useContext(AppContext);
 
   const logout = () => {
     setAnchorEl(null);
@@ -29,6 +31,7 @@ const TopBar = () => {
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
+          onChange={(e) => appContext.setSearchBarValue(e.target.value)}
         />
       </div>
       <div className={classes.avatarDropDown}>

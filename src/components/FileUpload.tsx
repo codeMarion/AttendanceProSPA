@@ -38,7 +38,7 @@ function FileUpload() {
           const parsedData : UploadModel[] = parseResponse.map((row:any,i) => {
             const newRow : UploadModel = {
               id: i,
-              user: parseInt(row.user),
+              userId: parseInt(row.user),
               studyLevel: row.studyLevel,
               courseYear: row.courseYear,
               regStatus: row.regStatus,

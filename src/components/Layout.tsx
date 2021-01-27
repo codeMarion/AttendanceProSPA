@@ -8,6 +8,7 @@ import Routes from "../config/Routes";
 import TopBar from "./TopBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
+import StudentPage from "./StudentPage";
 
 const Layout = () => {
   const Auth0 = useAuth0();
@@ -67,7 +68,8 @@ const Layout = () => {
           <Profile />
           {Routes.map((tab, i) => (
             <Route key={i} exact path={tab.path} component={tab.component} />
-          ))}
+            ))}
+          <Route exact path={"/students/:student"} component={StudentPage} />
         </main>
       </Router>
     </div>
