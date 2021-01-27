@@ -4,7 +4,7 @@ import UploadModel from '../models/UploadModel';
 export const UploadContext = createContext({
     uploadedData: [{
         id: 0,
-        user: 0,
+        userId: 0,
         studyLevel: "",
         courseYear: "",
         regStatus: "",
