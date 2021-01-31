@@ -4,7 +4,7 @@ import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 
 const columns: ColDef[] = [
-  { field: 'user', headerName: 'User', width: 120},
+  { field: 'userId', headerName: 'User', width: 120},
   { field: 'studyLevel', headerName: 'Level of Study', width: 150 },
   { field: 'regStatus', headerName: 'Registration Status', width: 180 },
   { field: 'courseTitle', headerName: 'Course Title', width: 200 },

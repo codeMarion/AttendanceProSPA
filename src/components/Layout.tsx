@@ -16,7 +16,7 @@ const Layout = () => {
   const classes = LayoutStyles();
 
   useEffect(() => {
-    Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
+    // Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
   },[])
 
   const handleDrawerToggle = () => {
