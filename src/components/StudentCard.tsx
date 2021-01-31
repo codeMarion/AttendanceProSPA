@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { PersonRounded } from "@material-ui/icons";
 
 interface StudentCardProps {
   studentId: number;
@@ -15,9 +16,12 @@ function StudentCard(props: StudentCardProps) {
     <Card>
       <ButtonBase onClick={() => history.push(`students/${props.studentId}`)}>
         <CardContent>
-          <Typography component="h5" variant="h5">
-            Student: {props.studentId}
-          </Typography>
+          <div style={{display:'flex'}}>
+            <PersonRounded fontSize="large"/>
+            <Typography component="h5" variant="h5">
+              Student: {props.studentId}
+            </Typography>
+          </div>
         </CardContent>
       </ButtonBase>
     </Card>
