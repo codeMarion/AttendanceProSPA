@@ -8,7 +8,7 @@ import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 
 const dataHeaders = [
-  "user",
+  "userId",
   "studyLevel",
   "courseYear",
   "regStatus",
@@ -38,7 +38,7 @@ function FileUpload() {
           const parsedData : UploadModel[] = parseResponse.map((row:any,i) => {
             const newRow : UploadModel = {
               id: i,
-              userId: parseInt(row.user),
+              userId: parseInt(row.userId),
               studyLevel: row.studyLevel,
               courseYear: row.courseYear,
               regStatus: row.regStatus,

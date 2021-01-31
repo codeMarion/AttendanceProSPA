@@ -4,7 +4,6 @@ import StudentPage from "../models/StudentPage";
 export default class StudentController 
 {
     public async GetStudentCount(searchTerm: string, accessToken: string) : Promise<number> {
-        console.log(searchTerm);
         const response = await fetch(`${AuthConfig.API_URL}/Student/count${searchTerm ? `/${searchTerm}`:''}`, {
             headers: {
                 "Authorization": `Bearer ${accessToken}`
