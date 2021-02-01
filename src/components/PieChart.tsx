@@ -30,6 +30,7 @@ export default function PieChart(props: {data: StudentData[]}) {
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
         enableRadialLabels={false}
         sliceLabelsSkipAngle={1}
+        sliceLabelsTextColor="#ffffff"
         colors={{ scheme: "category10" }}
         margin={{bottom:60,}}
         legends={[
