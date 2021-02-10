@@ -2,7 +2,11 @@ import { ResponsivePie } from "@nivo/pie";
 import React, { useEffect, useState } from "react";
 import StudentData from "../models/StudentData";
 
-export default function PieChart(props: {data: StudentData[]}) {
+interface PieChartProps {
+  data: StudentData[]
+}
+
+export default function PieChart(props: PieChartProps) {
   const [data, setData] = useState([
     {id: "Attended",label: "Attended", value: 0, color: "hsl(174, 70%, 50%)"},
     {id: "Teaching",label: "Teaching", value: 0, color: "hsl(204, 70%, 50%)"},
@@ -23,7 +27,6 @@ export default function PieChart(props: {data: StudentData[]}) {
 
 
   return (
-    <div style={{height: '19rem' , width: '100%'}}>
       <ResponsivePie
         data={data}
         //@ts-ignore
@@ -48,6 +51,5 @@ export default function PieChart(props: {data: StudentData[]}) {
           }
       ]}
       />
-      </div>
   );
 }
