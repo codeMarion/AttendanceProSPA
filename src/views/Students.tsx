@@ -8,8 +8,10 @@ import { useContext } from "react";
 import StudentPage from "../models/StudentPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import StudentsStyles from "../styles/StudentsStyles";
 
 const Students = () => {
+  const classes = StudentsStyles();
   const Auth0 = useAuth0();
   const [pages, setPages] = useState(0);
   const [currPage, setCurrPage] = useState(1);
@@ -39,7 +41,7 @@ const Students = () => {
     <>
     {students ? 
       <Grid container spacing={3}>
-        <Grid xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+        <Grid xs={12} className={classes.title}>
           <Typography variant="h4">Students</Typography>
         </Grid>
         {students.map(student => (
@@ -47,12 +49,12 @@ const Students = () => {
             <StudentCard studentId={student.userId}/>
           </Grid>
         ))}
-        <Grid xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+        <Grid xs={12} className={classes.pagination}>
           <Pagination count={pages} variant="outlined" onChange={(event, value) => setCurrPage(value)}/>
         </Grid>
       </Grid>
     :
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
+      <div className={classes.loading} color="secondary">
         <CircularProgress size={100} />
       </div>
     }
