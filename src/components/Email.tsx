@@ -20,7 +20,7 @@ function Email() {
 
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
-    const res = await controller.GetConversations(token,"mari6n7795@gmail.com");
+    const res = await controller.GetConversations(token,"ml553@sussex.ac.uk");
     setData(res);
 }
 
