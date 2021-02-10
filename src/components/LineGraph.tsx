@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import LineGraphModel from "../models/LineGraphModel";
 import StudentData from "../models/StudentData";
 
 interface LineGraphProps {
@@ -7,7 +8,7 @@ interface LineGraphProps {
 }
 
 export default function LineGraph(props: LineGraphProps) {
-    const [val, setVal] = useState<{name: string, attended: number}[]>([]);
+    const [val, setVal] = useState<LineGraphModel[]>([]);
 
     useEffect(() => {
         props.data.map((item,i) => {
@@ -15,7 +16,6 @@ export default function LineGraph(props: LineGraphProps) {
         })
     },[])
   return (
-    <div style={{height: '19rem' }}>
     <ResponsiveContainer width="99%">
     <LineChart
       width={500}
@@ -41,6 +41,5 @@ export default function LineGraph(props: LineGraphProps) {
       />
     </LineChart>
     </ResponsiveContainer>
-    </div>
   );
 }

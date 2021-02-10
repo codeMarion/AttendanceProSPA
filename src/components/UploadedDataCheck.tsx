@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { DataGrid, ColDef } from '@material-ui/data-grid';
 import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
+import FileUploadStyles from '../styles/FileUploadStyles';
 
 const columns: ColDef[] = [
   { field: 'userId', headerName: 'User', width: 120},
@@ -19,6 +20,7 @@ const columns: ColDef[] = [
 ];
 
 export default function UploadedDataCheck() {
+  const classes = FileUploadStyles();
   const [rows, setRows] = useState<UploadModel[]>([])
   const uploadContext = useContext(UploadContext);
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function UploadedDataCheck() {
   },[])
 
   return (
-    <div style={{ height: 400, width: '100%', marginBottom: '1rem' }}>
+    <div className={classes.dataCheck}>
       <DataGrid rows={rows} columns={columns} pageSize={5} autoHeight hideFooterSelectedRowCount/>
     </div>
   );
