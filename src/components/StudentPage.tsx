@@ -4,12 +4,13 @@ import { useSnackbar } from 'notistack';
 import StudentController from '../api/StudentController';
 import Student from '../models/Student'
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Typography } from '@material-ui/core';
+import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, Typography } from '@material-ui/core';
 import {Bookmark, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
 import GraphDialog from './GraphDialog';
 import Email from './Email';
+import { Tab } from '@material-ui/core';
 
 function StudentPage(props:any) {
     const Auth0 = useAuth0();
@@ -18,7 +19,8 @@ function StudentPage(props:any) {
     const { enqueueSnackbar } = useSnackbar();
     const [data, setData] = useState<Student>();
     const [bigGraph, setBigGraph] = useState("");
-    const [test, setTest] = useState(true);
+    const tabs = ["Profile","Communication"];
+    const [tab, setTab] = useState('profile');
 
     useEffect(() => {        
         fetchData();
@@ -36,6 +38,7 @@ function StudentPage(props:any) {
     }
     return (
         <>
+        <div>
             {data ? 
                 <>
                     {bigGraph ? 
@@ -81,7 +84,29 @@ function StudentPage(props:any) {
                                         </Grid>
                                 </Grid>
                             </Grid>
-                            {test ? <Email /> :
+                            <Grid container xs={12}>
+                                <Tabs
+                                    // value={value}
+                                    onChange={(event, value) => setTab(tabs[value])}
+                                    indicatorColor='primary'
+                                    textColor='primary'
+                                    variant='scrollable'
+                                    scrollButtons='auto'
+                                    aria-label='scrollable auto tabs example'
+                                    // className={classes.tabsPortfolio}
+                                        >
+                                    {tabs.map((tab, index) => {
+                                    return (
+                                        <Tab
+                                        key={index}
+                                        //   className={classes.tab}
+                                        label={tab}
+                                        />
+                                    );
+                                    })}
+                                </Tabs>
+                            </Grid>
+                            {tab === 'Communication' ? <Email /> :
                             <>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6}>
@@ -160,6 +185,7 @@ function StudentPage(props:any) {
                     <CircularProgress size={100} />
                 </div>
             }           
+        </div>
         </>
     )
 }
