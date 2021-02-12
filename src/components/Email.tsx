@@ -20,7 +20,8 @@ function Email() {
 
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
-    const res = await controller.GetConversations(token,"ml553@sussex.ac.uk");
+    let res = await controller.GetConversations(token,"mari6n7795@gmail.com");
+    res = res.reverse();
     setData(res);
 }
 
@@ -50,7 +51,7 @@ async function sendEmail(){
       Send New Email
       </Button>
       <VerticalTimeline>
-        {data.map((email:any) => (
+        {data.map((email:any,i) => (
             <VerticalTimelineElement
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
@@ -59,8 +60,8 @@ async function sendEmail(){
             iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
             icon={<Work />}
             >
-            <h3 className="vertical-timeline-element-title">Student</h3>
-            <h4 className="vertical-timeline-element-subtitle">Brighton</h4>
+            <h3 className="vertical-timeline-element-title">{i % 2 === 0 ? 'Student' : 'Staff'}</h3>
+            <h4 className="vertical-timeline-element-subtitle">University of Sussex</h4>
             <p>{email.content}</p>
             </VerticalTimelineElement>
         ))}

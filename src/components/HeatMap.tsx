@@ -9,7 +9,7 @@ interface HeatMapProps {
 }
 
 function HeatMap(props: HeatMapProps) {
-    const [val, setVal] = useState<any>([]);
+    const [heatmapData, setHeatMapData] = useState<any>([]);
 
     useEffect(() => {
       const x :any = [];
@@ -20,12 +20,12 @@ function HeatMap(props: HeatMapProps) {
         })
         x.push(y);
       })
-      setVal(x);
+      setHeatMapData(x);
       console.log(x);
-    },[props.data])
+    },[heatmapData])
     return (
       <ResponsiveHeatMap 
-        data={val}
+        data={heatmapData}
         keys={props.data[0].attended.map((score,i) => (i + 1).toString())}
         indexBy="course"
         margin={{ top: 100, right: 60, bottom: 60, left: 60 }}
