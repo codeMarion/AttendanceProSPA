@@ -1,18 +1,47 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { ResponsivePie } from '@nivo/pie'
-import React from 'react'
-import PieProps from '../models/PieProps'
+import percentRound from 'percent-round';
+import React, { useContext, useEffect, useState } from 'react'
+import CourseController from '../api/CourseController';
+import { CourseContext } from '../context/CourseContext';
+import AbsenceReasonsResponse from '../models/AbsenceReasonsResponse';
+import PieProps from '../models/PieProps';
 
-interface CoursePieProps {
-    data : PieProps[]
-}
+function CoursePie() {
+    const Auth0 = useAuth0();
+    const controller = new CourseController();
+    const coursesContext = useContext(CourseContext)
+    const [data, setData] = useState<PieProps[]>([
+      {id: "Attended", label: "Attended", value: 0, color: "hsl(174, 70%, 50%)"},
+      {id: "Non-Attended", label: "Non-Attended", value: 0, color: "hsl(254, 70%, 50%)"},
+      {id: "Explained", label: "Explained", value: 0, color: "hsl(234, 70%, 50%)"},
+    ])
 
-function CoursePie(props: CoursePieProps) {
+    useEffect(() => {
+      getChartData();
+    },[coursesContext.selectedCourses])
+
+    async function getChartData(){
+      const token = await Auth0.getAccessTokenSilently();
+      const res: AbsenceReasonsResponse = await controller.GetAbsenceData(
+        coursesContext.selectedCourses.map((el) => el.courseCode),
+        token
+      );
+      const piePercentages = percentRound([res.overall.attended, res.overall.nonAttended, res.overall.explained]);
+      const newPieData = [...data];
+      newPieData[0].value = piePercentages[0];
+      newPieData[1].value = piePercentages[1];
+      newPieData[2].value = piePercentages[2];
+      setData(newPieData);
+    }
+
+
     return (
         <ResponsivePie
-        data={props.data}
+        data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.7}
-        colors={{ scheme: "nivo" }}
+        colors={{ scheme: "category10" }}
         borderWidth={1}
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
         radialLabelsSkipAngle={10}

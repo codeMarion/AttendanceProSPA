@@ -8,6 +8,7 @@ import { UserContextProvider } from "./context/UserContext";
 import { UploadContextProvider } from "./context/UploadContext";
 import { SnackbarProvider } from "notistack";
 import { AppContextProvider } from "./context/AppContext";
+import { CourseContextProvider } from "./context/CourseContext";
 
 function App() {
   const Auth0 = useAuth0();
@@ -15,11 +16,13 @@ function App() {
     <UserContextProvider>
       <UploadContextProvider>
         <AppContextProvider>
-          <ThemeProvider theme={Theme}>
-            <SnackbarProvider>
-              {Auth0.isAuthenticated ? <Layout /> : <Login />}
-            </SnackbarProvider>
-          </ThemeProvider>
+          <CourseContextProvider>
+            <ThemeProvider theme={Theme}>
+              <SnackbarProvider>
+                {Auth0.isAuthenticated ? <Layout /> : <Login />}
+              </SnackbarProvider>
+            </ThemeProvider>
+          </CourseContextProvider>
         </AppContextProvider>
       </UploadContextProvider>
     </UserContextProvider>
