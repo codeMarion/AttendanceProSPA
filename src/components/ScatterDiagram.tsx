@@ -1,15 +1,45 @@
-import React from 'react'
-import { ResponsiveScatterPlot } from '@nivo/scatterplot'
+import React, { useContext, useEffect, useState } from 'react'
+import { ResponsiveScatterPlot, ResponsiveScatterPlotCanvas } from '@nivo/scatterplot'
 import ScatterProps from '../models/ScatterProps'
+import { useAuth0 } from '@auth0/auth0-react';
+import CourseController from '../api/CourseController';
+import { CourseContext } from '../context/CourseContext';
 
-interface ScatterDiagramProps {
-    data: ScatterProps[]
-}
+function ScatterDiagram() {
+    const Auth0 = useAuth0();
+    const controller = new CourseController();
+    const coursesContext = useContext(CourseContext)
+    const [chartData, setChartData] = useState<ScatterProps[]>([]);
 
-function ScatterDiagram(props: ScatterDiagramProps) {
+    useEffect(() => {
+        getChartData()
+    },[coursesContext.selectedCourses])
+
+    async function getChartData() {
+        const token = await Auth0.getAccessTokenSilently();
+        const res = await controller.getAttendedByTeachingSessionsData(
+          coursesContext.selectedCourses.map((el) => el.courseCode),
+            token
+        );
+        const newData : ScatterProps[] = []
+        res.map((course:any) => {
+          const dataPoint : ScatterProps = {
+            id: course.course,
+            data: course.attendanceData.map((record : any) => {
+                return {
+                  x: record.attended,
+                  y: record.teaching
+                }
+            })
+          }
+          newData.push(dataPoint);
+        })
+        setChartData(newData);
+      }
+
     return (
-        <ResponsiveScatterPlot
-        data={props.data}
+        <ResponsiveScatterPlotCanvas
+        data={chartData}
         margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
         xScale={{ type: 'linear', min: 0, max: 'auto' }}
         xFormat={function(e){return "attended "+e}}

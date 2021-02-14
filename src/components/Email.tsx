@@ -12,7 +12,8 @@ function Email() {
   const [openNewEmailDialog, setNewEmailDialog] = useState(false);
   const controller = new CommunicationController(); 
   const [data, setData] = useState([]); 
-  const [emailContent, setEmailContent] = useState('');
+  const [emailContent, setEmailContent] = useState('Dear Student,');
+  const [emailSubject, setEmailSubject] = useState('Attendance Information');
 
   useEffect(() => {
     GetEmails();
@@ -20,7 +21,7 @@ function Email() {
 
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
-    const res = await controller.GetConversations(token,"ml553@sussex.ac.uk");
+    let res = await controller.GetConversations(token,"mari6n7795@gmail.com");
     setData(res);
 }
 
@@ -31,7 +32,7 @@ async function sendEmail(){
         fromEmail:"admin@em2322.attendancepro.co.uk",
         toName:"Marion",
         toEmail:"mari6n7795@gmail.com",
-        subject:"React Email",
+        subject:emailSubject,
         content:`${emailContent}`,
         htmlContent:`<strong>${emailContent}</strong>`
     });
@@ -50,7 +51,7 @@ async function sendEmail(){
       Send New Email
       </Button>
       <VerticalTimeline>
-        {data.map((email:any) => (
+        {data.map((email:any,i) => (
             <VerticalTimelineElement
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
@@ -59,8 +60,8 @@ async function sendEmail(){
             iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
             icon={<Work />}
             >
-            <h3 className="vertical-timeline-element-title">Student</h3>
-            <h4 className="vertical-timeline-element-subtitle">Brighton</h4>
+            <h3 className="vertical-timeline-element-title">{i % 2 === 0 ? 'Student' : 'Staff'}</h3>
+            <h4 className="vertical-timeline-element-subtitle">University of Sussex</h4>
             <p>{email.content}</p>
             </VerticalTimelineElement>
         ))}
@@ -73,11 +74,20 @@ async function sendEmail(){
         <DialogTitle id="form-dialog-title">New Email</DialogTitle>
         <DialogContent>
             <TextField
-            id="outlined-multiline-static"
+            style={{marginBottom: '2%'}}
+            label="Subject"
+            multiline
+            rows={1}
+            defaultValue={emailSubject}
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setEmailSubject(e.target.value)}
+            />
+            <TextField
             label="Email"
             multiline
             rows={8}
-            defaultValue="Dear Student,"
+            defaultValue={emailContent}
             variant="outlined"
             fullWidth
             onChange={(e) => setEmailContent(e.target.value)}

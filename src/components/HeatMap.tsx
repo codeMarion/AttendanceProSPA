@@ -1,57 +1,91 @@
-import React, { useEffect, useState } from 'react'
-import { ResponsiveHeatMap } from '@nivo/heatmap'
+import React, { useContext, useEffect, useState } from "react";
+import { ResponsiveHeatMapCanvas } from "@nivo/heatmap";
+import { useAuth0 } from "@auth0/auth0-react";
+import CourseController from "../api/CourseController";
+import { CourseContext } from "../context/CourseContext";
 
-interface HeatMapProps {
-  data: {
-    course: string;
-    attended: number[]
-  }[]
-}
+function HeatMap() {
+  const Auth0 = useAuth0();
+  const controller = new CourseController();
+  const coursesContext = useContext(CourseContext);
+  const [chartData, setChartData] = useState<any>([]);
 
-function HeatMap(props: HeatMapProps) {
-    const [val, setVal] = useState<any>([]);
+  useEffect(() => {
+    GetChartData();
+  }, [coursesContext.selectedCourses]);
 
-    useEffect(() => {
-      const x :any = [];
-      props.data.map(item => {
-        const y:any = {course: item.course};
-        item.attended.map((score,i) => {
-          y[i + 1] = score
-        })
-        x.push(y);
-      })
-      setVal(x);
-      console.log(x);
-    },[props.data])
-    return (
-      <ResponsiveHeatMap 
-        data={val}
-        keys={props.data[0].attended.map((score,i) => (i + 1).toString())}
-        indexBy="course"
-        margin={{ top: 100, right: 60, bottom: 60, left: 60 }}
-        axisTop={{ orient: 'top', tickSize: 5, tickPadding: 5, tickRotation: -90, legend: '', legendOffset: 36 }}
-        axisRight={null}
-        axisBottom={null}
-        axisLeft={{
-            orient: 'left',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legendPosition: 'middle',
-            legendOffset: -70
-        }}
-        cellOpacity={1}
-        cellBorderColor="black"
-        labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.8 ] ] }}
+  async function GetChartData() {
+    const token = await Auth0.getAccessTokenSilently();
+    const res: {
+      course: string;
+      attended: number[];
+    }[] = await controller.GetAttendanceByPeriod(
+      coursesContext.selectedCourses.map((el) => el.courseCode),
+      token
+    );
+    const newData: any = [];
+    res.map((item) => {
+      const dataPoint: any = { course: item.course };
+      item.attended.map((score, i) => {
+        dataPoint[i + 1] = score;
+      });
+      newData.push(dataPoint);
+    });
+    setChartData(newData);
+  }
 
-        animate={true}
-        motionStiffness={80}
-        motionDamping={9}
-        hoverTarget="cell"
-        cellHoverOpacity={0.85}
-        cellHoverOthersOpacity={0.25}
+  function getHeatMapKeys(): string[] {
+    const keys: string[] = [];
+    if (chartData.length > 0) {
+      for (let i = 1; i < Object.keys(chartData[0]).length; i++) {
+        keys.push(i.toString());
+      }
+    }
+    return keys;
+  }
+
+  return (
+    <ResponsiveHeatMapCanvas
+      data={chartData}
+      keys={getHeatMapKeys()}
+      indexBy="course"
+      margin={{ top: 60, right: 10, bottom: 60, left: 70 }}
+      pixelRatio={1.25}
+      minValue="auto"
+      maxValue="auto"
+      forceSquare={false}
+      sizeVariation={0}
+      padding={0}
+      colors="nivo"
+      axisTop={{
+        orient: "top",
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: "",
+        legendOffset: 36,
+      }}
+      axisLeft={{
+        orient: "left",
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legendPosition: "middle",
+        legendOffset: -40,
+      }}
+      enableGridX={false}
+      enableGridY={true}
+      cellOpacity={1}
+      cellBorderWidth={0}
+      cellBorderColor={{ from: "color", modifiers: [["darker", 0.4]] }}
+      enableLabels={false}
+      labelTextColor={{ from: "color", modifiers: [["darker", 1.4]] }}
+      isInteractive={true}
+      hoverTarget="rowColumn"
+      cellHoverOpacity={1}
+      cellHoverOthersOpacity={0.5}
     />
-    )
+  );
 }
 
-export default HeatMap
+export default HeatMap;
