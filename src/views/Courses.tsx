@@ -8,15 +8,17 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CourseVisulisations from "../components/CourseVisulisations";
 import CoursesStyles from "../styles/CoursesStyles";
 import FilterIcon from "../assets/FilterIcon";
+import { useContext } from "react";
+import { CourseContext } from "../context/CourseContext";
 
 const Students = () => {
+  const classes = CoursesStyles();
   const Auth0 = useAuth0();
+  const coursesContext = useContext(CourseContext);
+  const controller = new CourseController();
+  const [filterDrawer, setFilterDrawer] = useState(false);
   const [textInput, setTextInput] = useState('');
   const [courses, setCourses] = useState<CourseResponse[]>();
-  const [chipData, setChipData] = useState<CourseResponse[]>([]);
-  const controller = new CourseController();
-  const classes = CoursesStyles();
-  const [filterDrawer, setFilterDrawer] = useState(false);
 
   useEffect(() => {
     GetCourses();
@@ -33,13 +35,17 @@ const Students = () => {
         (c) => c.courseCode !== course.courseCode
       );
       setCourses(newCourses);
-      setChipData((chipData) => [...chipData, course]);
+      let chipData = [...coursesContext.selectedCourses]
+      chipData.push(course);
+      coursesContext.setSelectedCourses(chipData);
       setTextInput("");
     }
   };
 
   const handleChipDelete = (course: CourseResponse) => {
-    setChipData(chipData.filter(c => c.courseCode !== course.courseCode));
+    let chipData = [...coursesContext.selectedCourses]
+    chipData = chipData.filter(c => c.courseCode !== course.courseCode)
+    coursesContext.setSelectedCourses(chipData);
     let courseArr = [course];
     let newCourses = [...courses!];
     newCourses = courseArr.concat(newCourses);
@@ -82,13 +88,13 @@ const Students = () => {
               </Grid>
               <Divider />
               <Box className={classes.chips}>
-                {chipData.map((course) => (
+                {coursesContext.selectedCourses.map((course) => (
                   <Chip label={course.courseTitle} className={classes.chipStyle}  onDelete={() => handleChipDelete(course)} />
                   ))}
               </Box>
             </Grid>
           </Drawer>
-          <CourseVisulisations courses={chipData}/>
+          <CourseVisulisations/>
         </Grid>
       ) : (
         <div className={classes.loading} color="secondary">

@@ -12,7 +12,8 @@ function Email() {
   const [openNewEmailDialog, setNewEmailDialog] = useState(false);
   const controller = new CommunicationController(); 
   const [data, setData] = useState([]); 
-  const [emailContent, setEmailContent] = useState('');
+  const [emailContent, setEmailContent] = useState('Dear Student,');
+  const [emailSubject, setEmailSubject] = useState('Attendance Information');
 
   useEffect(() => {
     GetEmails();
@@ -21,7 +22,6 @@ function Email() {
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
     let res = await controller.GetConversations(token,"mari6n7795@gmail.com");
-    res = res.reverse();
     setData(res);
 }
 
@@ -32,7 +32,7 @@ async function sendEmail(){
         fromEmail:"admin@em2322.attendancepro.co.uk",
         toName:"Marion",
         toEmail:"mari6n7795@gmail.com",
-        subject:"React Email",
+        subject:emailSubject,
         content:`${emailContent}`,
         htmlContent:`<strong>${emailContent}</strong>`
     });
@@ -74,11 +74,20 @@ async function sendEmail(){
         <DialogTitle id="form-dialog-title">New Email</DialogTitle>
         <DialogContent>
             <TextField
-            id="outlined-multiline-static"
+            style={{marginBottom: '2%'}}
+            label="Subject"
+            multiline
+            rows={1}
+            defaultValue={emailSubject}
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setEmailSubject(e.target.value)}
+            />
+            <TextField
             label="Email"
             multiline
             rows={8}
-            defaultValue="Dear Student,"
+            defaultValue={emailContent}
             variant="outlined"
             fullWidth
             onChange={(e) => setEmailContent(e.target.value)}
