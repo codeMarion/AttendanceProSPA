@@ -29,6 +29,18 @@ export default class StudentController
         return data;
     }
 
+    public async UpdateStudent(userId: number, email: string, phone: string, accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/update`,{
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({userId,email,phone})
+        });
+        return response.ok;
+    }
+
     public async GetStudent(studentId: string, accessToken: string) {
         const response = await fetch(`${AuthConfig.API_URL}/Student/${studentId}`,{
             headers: {

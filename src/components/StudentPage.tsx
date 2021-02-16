@@ -4,8 +4,8 @@ import { useSnackbar } from 'notistack';
 import StudentController from '../api/StudentController';
 import Student from '../models/Student'
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, Typography } from '@material-ui/core';
-import {Bookmark, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
+import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
+import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
 import GraphDialog from './GraphDialog';
@@ -20,7 +20,9 @@ function StudentPage(props:any) {
     const [data, setData] = useState<Student>();
     const [bigGraph, setBigGraph] = useState("");
     const tabs = ["Profile","Communication"];
+    const [personalDetailsEditMode, setPersonalDetailsEditMode] = useState(false);
     const [tab, setTab] = useState('profile');
+    
 
     useEffect(() => {        
         fetchData();
@@ -84,28 +86,26 @@ function StudentPage(props:any) {
                                         </Grid>
                                 </Grid>
                             </Grid>
+                            {data.email ? 
                             <Grid container xs={12}>
                                 <Tabs
-                                    // value={value}
                                     onChange={(event, value) => setTab(tabs[value])}
                                     indicatorColor='primary'
                                     textColor='primary'
                                     variant='scrollable'
                                     scrollButtons='auto'
                                     aria-label='scrollable auto tabs example'
-                                    // className={classes.tabsPortfolio}
                                         >
                                     {tabs.map((tab, index) => {
                                     return (
                                         <Tab
                                         key={index}
-                                        //   className={classes.tab}
                                         label={tab}
                                         />
                                     );
                                     })}
                                 </Tabs>
-                            </Grid>
+                            </Grid> : <></> }
                             {tab === 'Communication' ? <Email /> :
                             <>
                             <Grid container spacing={3}>
@@ -131,14 +131,45 @@ function StudentPage(props:any) {
                                 <Grid item xs={12} md={6}>
                                     <Card>
                                         <Box style={{margin: '1rem'}}>
-                                            <Typography variant="subtitle1">Contact Details:</Typography>
+                                            <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Typography variant="subtitle1">Contact Details:</Typography>
+                                                {personalDetailsEditMode ? 
+                                                    <ButtonBase onClick={async () => {
+                                                        const token = await Auth0.getAccessTokenSilently();
+                                                        controller.UpdateStudent(data.userId,data.email,data.phone,token);
+                                                        setPersonalDetailsEditMode(false);
+                                                    }}>
+                                                        <CheckCircleOutline />
+                                                    </ButtonBase>
+                                                :
+                                                    <ButtonBase onClick={() => setPersonalDetailsEditMode(true)}>
+                                                        <Edit />
+                                                    </ButtonBase>
+                                                }
+                                            </Box>
                                             <Grid container style={{margin: '2% 0'}}>
                                                 <MailOutline />
-                                                <Typography style={{marginLeft: '1%'}} variant="body2">ml553@sussex.ac.uk</Typography>
+                                                {personalDetailsEditMode ?
+                                                    <TextField value={data.email} onChange={(e) => {
+                                                        const newData = {...data};
+                                                        newData.email = e.target.value;
+                                                        setData(newData);
+                                                    }}/>
+                                                :
+                                                    <Typography style={{marginLeft: '1%'}} variant="body2">{data.email}</Typography>
+                                                }
                                             </Grid>
                                             <Grid container >
                                                 <Phone />
-                                                <Typography style={{marginLeft: '1%'}} variant="body2">+447305613249</Typography>
+                                                {personalDetailsEditMode ?
+                                                    <TextField value={data.phone} onChange={(e) => {
+                                                        const newData = {...data};
+                                                        newData.phone = e.target.value;
+                                                        setData(newData);
+                                                    }}/>
+                                                :
+                                                    <Typography style={{marginLeft: '1%'}} variant="body2">{data.phone}</Typography>
+                                                }
                                             </Grid>
                                         </Box>
                                     </Card>

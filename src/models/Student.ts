@@ -5,5 +5,7 @@ export default interface Student{
     studyLevel: string;
     courseTitle: string;
     courseCode: string;
+    email: string;
+    phone: string;
     studentData: StudentData[];
 }

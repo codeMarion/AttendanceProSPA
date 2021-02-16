@@ -61,7 +61,7 @@ async function sendEmail(){
             >
             <h3 className="vertical-timeline-element-title">{email.fromEmail === "admin@em2322.attendancepro.co.uk" ? 'Staff' : 'Student'}</h3>
             <h4 className="vertical-timeline-element-subtitle">University of Sussex</h4>
-            <p>{email.content}</p>
+            <div dangerouslySetInnerHTML={{__html: email.htmlContent}} />
             </VerticalTimelineElement>
         ))}
         <VerticalTimelineElement
