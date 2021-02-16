@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import StudentController from '../api/StudentController';
@@ -11,6 +11,9 @@ import LineGraph from './LineGraph';
 import GraphDialog from './GraphDialog';
 import Email from './Email';
 import { Tab } from '@material-ui/core';
+import { AppContext } from '../context/AppContext';
+import StudentData from '../models/StudentData';
+import Moment from "react-moment";
 
 function StudentPage(props:any) {
     const Auth0 = useAuth0();
@@ -22,9 +25,11 @@ function StudentPage(props:any) {
     const tabs = ["Profile","Communication"];
     const [personalDetailsEditMode, setPersonalDetailsEditMode] = useState(false);
     const [tab, setTab] = useState('profile');
+    const appContext = useContext(AppContext);
     
 
-    useEffect(() => {        
+    useEffect(() => {  
+        appContext.setSearchBarValue("");      
         fetchData();
     },[])
 
@@ -38,6 +43,7 @@ function StudentPage(props:any) {
             enqueueSnackbar('Student not found!', { variant: "error" });
         }
     }
+
     return (
         <>
         <div>
@@ -69,20 +75,24 @@ function StudentPage(props:any) {
                                                     <Typography>Registered</Typography>
                                                 </Box>
                                             </Grid>
-                                            <Hidden smDown>
-                                                <Grid xs={12} md={4} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <Box>
-                                                        <Typography>Last Contact: 01/02/2021</Typography>
-                                                    </Box>
-                                                </Grid>
-                                            </Hidden>
-                                            <Hidden mdUp>
-                                                <Grid xs={12} md={4} style={{display: 'flex',marginLeft: '2%', justifyContent: 'flex-start'}}>
-                                                    <Box>
-                                                        <Typography>Last Contact: 01/02/2021</Typography>
-                                                    </Box>
-                                                </Grid>
-                                            </Hidden>
+                                            {data.studentData[data.studentData.length - 1].lastAttendance ?
+                                            <>
+                                                <Hidden smDown>
+                                                    <Grid xs={12} md={4} style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                        <Box>
+                                                            <Typography>Last Attendance: <Moment format="DD/MM/YYYY HH:mm">{data.studentData[data.studentData.length - 1].lastAttendance}</Moment></Typography>
+                                                        </Box>
+                                                    </Grid>
+                                                </Hidden>
+                                                <Hidden mdUp>
+                                                    <Grid xs={12} md={4} style={{display: 'flex',marginLeft: '2%', justifyContent: 'flex-start'}}>
+                                                        <Box>
+                                                            <Typography>Last Attendance: <Moment format="DD/MM/YYYY HH:mm">{data.studentData[data.studentData.length - 1].lastAttendance}</Moment></Typography>
+                                                        </Box>
+                                                    </Grid>
+                                                </Hidden>
+                                            </> : <></>
+                                            }
                                         </Grid>
                                 </Grid>
                             </Grid>

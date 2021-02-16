@@ -25,22 +25,22 @@ const Layout = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <Menu />
-          </IconButton>
-          <TopBar />
-        </Toolbar>
-      </AppBar>
       <Router>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <Menu />
+            </IconButton>
+            <TopBar />
+          </Toolbar>
+        </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">
           <Hidden smUp implementation="css">
             <DrawerMUI
@@ -72,6 +72,7 @@ const Layout = () => {
           <Route exact path={"/students/:student"} component={StudentPage} />
         </main>
       </Router>
+
     </div>
   );
 };
