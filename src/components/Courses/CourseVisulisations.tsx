@@ -5,8 +5,8 @@ import CourseBar from "./CourseBar";
 import HeatMap from "./HeatMap";
 import ScatterDiagram from "./ScatterDiagram";
 import { Fullscreen } from "@material-ui/icons";
-import GraphDialog from "./GraphDialog";
-import { CourseContext } from "../context/CourseContext";
+import GraphDialog from "./../GraphDialog";
+import { CourseContext } from "../../context/CourseContext";
 
 function CourseVisulisations() {
   const coursesContext = useContext(CourseContext);
