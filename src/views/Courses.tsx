@@ -5,7 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CourseResponse from "../models/CourseResponse";
 import CourseController from "../api/CourseController";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import CourseVisulisations from "../components/CourseVisulisations";
+import CourseVisulisations from "../components/Courses/CourseVisulisations";
 import CoursesStyles from "../styles/CoursesStyles";
 import FilterIcon from "../assets/FilterIcon";
 import { useContext } from "react";

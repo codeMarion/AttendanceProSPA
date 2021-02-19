@@ -8,7 +8,7 @@ import Routes from "../config/Routes";
 import TopBar from "./TopBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
-import StudentPage from "./StudentPage";
+import StudentPage from "./Students/StudentPage";
 
 const Layout = () => {
   const Auth0 = useAuth0();
