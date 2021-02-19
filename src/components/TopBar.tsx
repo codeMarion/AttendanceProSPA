@@ -6,8 +6,10 @@ import Avatar from "@material-ui/core/Avatar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../context/UserContext";
 import { AppContext } from "../context/AppContext";
+import { useHistory } from "react-router-dom";
 const TopBar = () => {
   const Auth0 = useAuth0();
+  const history = useHistory();
   const classes = TopBarStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const userContext = useContext(UserContext)
@@ -31,7 +33,11 @@ const TopBar = () => {
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
-          onChange={(e) => appContext.setSearchBarValue(e.target.value)}
+          onChange={(e) => {
+            appContext.setSearchBarValue(e.target.value);
+            history.push('/students');
+          }}
+          value={appContext.searchBarValue}
         />
       </div>
       <div className={classes.avatarDropDown}>
