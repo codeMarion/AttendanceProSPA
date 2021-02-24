@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import LineGraphModel from "../models/LineGraphModel";
-import StudentData from "../models/StudentData";
+import LineGraphModel from "../../models/LineGraphModel";
+import StudentData from "../../models/StudentData";
 
 interface LineGraphProps {
     data: StudentData[]

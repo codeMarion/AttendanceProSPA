@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { useSnackbar } from 'notistack';
-import CommunicationController from "../api/CommunicationController";
+import CommunicationController from "../../api/CommunicationController";
 import { useAuth0 } from "@auth0/auth0-react";
 function Email() {
   const Auth0 = useAuth0();

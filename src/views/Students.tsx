@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, ButtonBase, Chip, Divider, Drawer, Grid, TextField, Typography } from "@material-ui/core";
-import StudentCard from "../components/StudentCard";
+import StudentCard from "../components/Students/StudentCard";
 import Pagination from '@material-ui/lab/Pagination';
 import StudentController from "../api/StudentController";
 import { AppContext } from "../context/AppContext";

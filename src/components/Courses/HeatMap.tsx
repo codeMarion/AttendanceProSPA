@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ResponsiveHeatMapCanvas } from "@nivo/heatmap";
 import { useAuth0 } from "@auth0/auth0-react";
-import CourseController from "../api/CourseController";
-import { CourseContext } from "../context/CourseContext";
+import CourseController from "../../api/CourseController";
+import { CourseContext } from "../../context/CourseContext";
 
 function HeatMap() {
   const Auth0 = useAuth0();
