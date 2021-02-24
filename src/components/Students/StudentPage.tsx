@@ -4,16 +4,15 @@ import { useSnackbar } from 'notistack';
 import StudentController from '../../api/StudentController';
 import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
 import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
 import GraphDialog from './../GraphDialog';
 import Email from './Email';
 import { Tab } from '@material-ui/core';
-import { AppContext } from '../context/AppContext';
-import StudentData from '../models/StudentData';
 import Moment from "react-moment";
+import { AppContext } from '../../context/AppContext';
 
 function StudentPage(props:any) {
     const Auth0 = useAuth0();
