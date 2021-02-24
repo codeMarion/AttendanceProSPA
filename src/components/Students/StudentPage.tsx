@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import StudentController from '../api/StudentController';
-import Student from '../models/Student'
+import StudentController from '../../api/StudentController';
+import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
 import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
-import GraphDialog from './GraphDialog';
+import GraphDialog from './../GraphDialog';
 import Email from './Email';
 import { Tab } from '@material-ui/core';
 import { AppContext } from '../context/AppContext';
@@ -66,7 +66,9 @@ function StudentPage(props:any) {
                         <>
                             <Grid container spacing={3}>
                                 <Grid item style={{display: 'flex', width: '100%'}}>
-                                    <Avatar style={{ height: '70px', width: '70px', fontSize: '40px' }}>ML</Avatar>
+                                <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center', padding: '5px 10px 5px 10px', backgroundColor: 'lightblue', borderRadius: '50%'}}>
+                                    <img style={{height: '70%'}} src={'https://img.icons8.com/color/48/000000/student-male--v1.png'} />
+                                </Box>
                                         <Grid container style={{width: '100%', justifyContent: 'space-between'}}>
                                             <Grid xs={12} md={8} >
                                                 <Box style={{marginLeft: '2%'}}>

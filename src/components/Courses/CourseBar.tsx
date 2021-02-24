@@ -2,10 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ResponsiveBarCanvas } from '@nivo/bar'
 import percentRound from 'percent-round';
 import React, { useContext, useEffect, useState } from 'react'
-import CourseController from '../api/CourseController';
-import { CourseContext } from '../context/CourseContext';
-import AbsenceReasonsResponse from '../models/AbsenceReasonsResponse';
-import BarProps from '../models/BarProps'
+import CourseController from '../../api/CourseController';
+import { CourseContext } from '../../context/CourseContext';
+import AbsenceReasonsResponse from '../../models/AbsenceReasonsResponse';
+import BarProps from '../../models/BarProps'
 
 function CourseBar() {
     const Auth0 = useAuth0();

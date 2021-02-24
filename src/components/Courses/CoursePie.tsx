@@ -2,10 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ResponsivePie } from '@nivo/pie'
 import percentRound from 'percent-round';
 import React, { useContext, useEffect, useState } from 'react'
-import CourseController from '../api/CourseController';
-import { CourseContext } from '../context/CourseContext';
-import AbsenceReasonsResponse from '../models/AbsenceReasonsResponse';
-import PieProps from '../models/PieProps';
+import CourseController from '../../api/CourseController';
+import { CourseContext } from '../../context/CourseContext';
+import AbsenceReasonsResponse from '../../models/AbsenceReasonsResponse';
+import PieProps from '../../models/PieProps';
 
 function CoursePie() {
     const Auth0 = useAuth0();

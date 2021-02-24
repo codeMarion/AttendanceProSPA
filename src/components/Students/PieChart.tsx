@@ -1,6 +1,6 @@
 import { ResponsivePie } from "@nivo/pie";
 import React, { useEffect, useState } from "react";
-import StudentData from "../models/StudentData";
+import StudentData from "../../models/StudentData";
 
 interface PieChartProps {
   data: StudentData[]

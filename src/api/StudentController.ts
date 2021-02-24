@@ -49,4 +49,85 @@ export default class StudentController
         });        
         return response.ok ? await response.json() : false;
     }
+
+    public async GetPersistentStudentsCount(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsence`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetNotAttendingStudentsCount(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/nonAttendingCount`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetPersistentStudentsData(accessToken: string, page: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsence/${page}`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetAverageAttendance(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/avgAttendance`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetPersistentAbsenteesByYear(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByYear`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetAbsenceStartingData(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/attendanceByPeriod`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async GetPersistentAbsenteesByCourse(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByCourse`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async NonAttendingStudents(accessToken: string, page: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/nonAttendingStudents/${page}`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
+
+    public async NonAttendingStudentsByYear(accessToken: string){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/nonAttendingStudentsByYear`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });        
+        return response.ok ? await response.json() : false;
+    }
 }
