@@ -13,7 +13,7 @@ const SmallInfo = (props:SmallInfoProps) => {
             <CardContent>
                 <Box style={{display: 'flex', justifyContent: 'space-between'}}>
                     <Box>
-                        <Typography >
+                        <Typography style={{whiteSpace: "nowrap",width: '140px',textOverflow: 'ellipsis', overflow: 'hidden'}}>
                             {props.title}
                         </Typography>
                         <Typography variant="h4">

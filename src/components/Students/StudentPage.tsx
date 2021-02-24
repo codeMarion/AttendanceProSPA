@@ -63,7 +63,6 @@ function StudentPage(props:any) {
                                 <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center', padding: '5px 10px 5px 10px', backgroundColor: 'lightblue', borderRadius: '50%'}}>
                                     <img style={{height: '70%'}} src={'https://img.icons8.com/color/48/000000/student-male--v1.png'} />
                                 </Box>
-                                    {/* <Avatar style={{ height: '70px', width: '70px', fontSize: '40px' }}>ML</Avatar> */}
                                         <Grid container style={{width: '100%', justifyContent: 'space-between'}}>
                                             <Grid xs={12} md={8} >
                                                 <Box style={{marginLeft: '2%'}}>

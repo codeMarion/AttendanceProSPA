@@ -1,49 +1,67 @@
-import { Box, TableBody, TableCell, TableRow } from '@material-ui/core'
-import React from 'react'
+import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Hidden, TableBody, TableCell, TableRow } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom';
+import StudentController from '../../api/StudentController';
+import StudentData from '../../models/StudentData';
 
-const data = [
-    {
-        id: "181283",
-        status: "Registered",
-        course: "CompSci",
-        attendance: 95,
-        ranking: "Critical"
-    },
-    {
-        id: "181379",
-        status: "Registered",
-        course: "CompSci & AI",
-        attendance: 95,
-        ranking: "Perfect"
-    },
-    {
-        id: "181326",
-        status: "Registered",
-        course: "CompSci",
-        attendance: 95,
-        ranking: "Critical"
+
+interface StudentsTableBodyProps {
+    page: number;
+    persistentView: boolean;
+}
+
+
+
+function StudentsTableBody(props: StudentsTableBodyProps) {
+
+    const Auth0 = useAuth0();
+    const controller = new StudentController();
+    const history = useHistory();
+    const [data, setData] = useState<any[]>([]);
+
+    useEffect(() => {
+        if(props.persistentView){
+            GetPersistentStudents();
+        }else{
+            GetNotAttendingStudents();
+        }
+    },[props.page, props.persistentView])
+
+    async function GetPersistentStudents(){
+        const token = await Auth0.getAccessTokenSilently();
+        const dbData = await controller.GetPersistentStudentsData(token, props.page);
+        setData(dbData);
     }
-]
 
-function StudentsTableBody() {
+    async function GetNotAttendingStudents(){
+        const token = await Auth0.getAccessTokenSilently();
+        const dbData = await controller.NonAttendingStudents(token, props.page);
+        setData(dbData);
+    }
+
     return (
         <TableBody>
                 {data.map(item => (
-                    <TableRow className="item-hover">
+                    <TableRow className="item-hover" onClick={() => history.push(`students/${item.userId}`)}>
                         <TableCell>
-                            <Box>{item.id}</Box>
+                            <Box>{item.userId}</Box>
                         </TableCell>
                         <TableCell>
-                            <Box>{item.status}</Box>
+                            <Box style={{whiteSpace: "nowrap",width: '80px',textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.regStatus}</Box>
                         </TableCell>
                         <TableCell>
-                            <Box>{item.course}</Box>
+                            <Box style={{whiteSpace: "nowrap",width: '100px',textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.courseTitle}</Box>
                         </TableCell>
                         <TableCell>
-                            <Box style={{textAlign: 'center'}}>{item.attendance}%</Box>
+                            <Box style={{textAlign: 'center'}}>{Math.round(item.attendancePercentage * 100)}%</Box>
                         </TableCell>
                         <TableCell>
-                            <Box style={{textAlign: 'center',color: 'white',backgroundColor: item.ranking === 'Critical' ? 'red' : 'green', borderRadius: 50}}>{item.ranking}</Box>
+                            {item.attendancePercentage < 0.4 ?
+                                <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'red', borderRadius: 50}}>Critical</Box>
+                                :
+                                <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'green', borderRadius: 50}}>Perfect</Box>
+                            }
                         </TableCell>
                     </TableRow>
                 ))}
