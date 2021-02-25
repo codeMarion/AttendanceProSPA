@@ -56,7 +56,7 @@ function HeatMap() {
       forceSquare={false}
       sizeVariation={0}
       padding={0}
-      colors="nivo"
+      colors="YlOrRd"
       axisTop={{
         orient: "top",
         tickSize: 5,

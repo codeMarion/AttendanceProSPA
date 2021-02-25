@@ -45,6 +45,7 @@ function ScatterDiagram() {
         xFormat={function(e){return "attended "+e}}
         yScale={{ type: 'linear', min: 0, max: 'auto' }}
         yFormat={function(e){return "teaching "+e}}
+        colors={{ scheme: 'category10' }}
         blendMode="multiply"
         axisTop={null}
         axisRight={null}

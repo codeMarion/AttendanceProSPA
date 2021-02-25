@@ -59,8 +59,10 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
                         <TableCell>
                             {item.attendancePercentage < 0.4 ?
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'red', borderRadius: 50}}>Critical</Box>
-                                :
-                                <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'green', borderRadius: 50}}>Perfect</Box>
+                            :item.attendancePercentage < 0.6 ?
+                                <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF1493', borderRadius: 50}}>Very Bad</Box>
+                            :
+                                <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF4500', borderRadius: 50}}>Bad</Box>
                             }
                         </TableCell>
                     </TableRow>

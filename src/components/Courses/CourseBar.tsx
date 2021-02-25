@@ -44,7 +44,7 @@ function CourseBar() {
         groupMode="grouped"
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'category10' }}
+        colors={() => 'rgb(44, 160, 44)'}
         borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
         axisBottom={{
             tickSize: 5,

@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Player } from "@lottiefiles/react-lottie-player";
 import { Box, ButtonBase, Card, CardContent, CircularProgress, Grid, Hidden, Typography } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
