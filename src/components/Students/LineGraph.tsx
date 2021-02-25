@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import LineGraphModel from "../../models/LineGraphModel";
 import StudentData from "../../models/StudentData";
 
@@ -16,12 +16,9 @@ export default function LineGraph(props: LineGraphProps) {
         })
     },[])
   return (
-    <ResponsiveContainer width="99%">
-    <LineChart
-      width={500}
-      height={300}
+    <ResponsiveContainer width="99%" height="99%">
+    <AreaChart
       data={val}
-      syncId="anyId"
       margin={{
         top: 10,
         right: 30,
@@ -29,17 +26,26 @@ export default function LineGraph(props: LineGraphProps) {
         bottom: 0,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" label={{value: "Period", position: "outsideBottom"}}/>
-      <YAxis label={{ value: "%", position: "insideLeft"}}/>
-      <Tooltip />
-      <Line
-        type="monotone"
-        dataKey="attended"
-        stroke="#8884d8"
-        fill="#8884d8"
-      />
-    </LineChart>
-    </ResponsiveContainer>
+      <defs>
+          <linearGradient id='color15' x1='0' y1='0' x2='0' y2='1'>
+             <stop offset='5%' stopColor='#EBF6FC' stopOpacity={0.8} />
+             <stop offset='95%' stopColor='#fff' stopOpacity={0.8} />
+          </linearGradient>
+      </defs>
+      <XAxis dataKey="name" />
+      <YAxis domain={[0, 100]}/>
+      <Tooltip formatter={(value:number) => `${value}%`}/>
+      <CartesianGrid />
+      <Area
+          type='monotone'
+          dataKey='attended'
+          strokeWidth={4}
+          stackId='2'
+          stroke='#18A0FB'
+          fill='url(#color15)'
+          fillOpacity={1}
+        />
+    </AreaChart>
+  </ResponsiveContainer>
   );
 }

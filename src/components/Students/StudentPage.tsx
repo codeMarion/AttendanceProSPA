@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import StudentController from '../../api/StudentController';
 import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
+import { Box, Button, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
 import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
@@ -13,6 +13,10 @@ import Email from './Email';
 import { Tab } from '@material-ui/core';
 import Moment from "react-moment";
 import { AppContext } from '../../context/AppContext';
+import jsPDF from "jspdf";
+import domtoimage from 'dom-to-image';
+
+
 
 function StudentPage(props:any) {
     const Auth0 = useAuth0();
@@ -24,6 +28,7 @@ function StudentPage(props:any) {
     const tabs = ["Profile","Communication"];
     const [personalDetailsEditMode, setPersonalDetailsEditMode] = useState(false);
     const [tab, setTab] = useState('profile');
+    const [graphTitle, setGraphTitle] = useState('');
     const appContext = useContext(AppContext);
     
 
@@ -42,6 +47,21 @@ function StudentPage(props:any) {
             enqueueSnackbar('Student not found!', { variant: "error" });
         }
     }
+    // const renderTemplate = async() => {
+    //     const attendanceByPeriod = await domtoimage.toBlob(document.getElementById('attendanceByPeriod')!);
+    //     var reader = new FileReader();
+    //     reader.readAsDataURL(attendanceByPeriod); 
+    //     reader.onloadend = function() {
+    //         var base64data = reader.result;                
+    //         console.log(base64data);
+    //         var doc = new jsPDF()
+    //         doc.text("20", 20, 20)
+    //         doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
+    //         //@ts-ignore
+    //         doc.addImage(base64data, 'PNG', 15, 40, 160, 80, 0, 'NONE')
+    //         doc.save();
+    //     }
+    // }
 
     return (
         <>
@@ -49,7 +69,7 @@ function StudentPage(props:any) {
             {data ? 
                 <>
                     {bigGraph ? 
-                        <GraphDialog open={true} closeDialog={() => setBigGraph("")}>
+                        <GraphDialog open={true} closeDialog={() => setBigGraph("")} title={graphTitle}>
                             {bigGraph === "pie" ?
                                 <div style={{ height: "29rem", width: "100%" }}>
                                     <PieChart data={data.studentData}/>
@@ -128,6 +148,9 @@ function StudentPage(props:any) {
                                             <PersonRounded />
                                             <Typography style={{marginLeft: '1%'}}>#{data.userId}</Typography>
                                         </Grid>
+                                        {/* <Button onClick={renderTemplate}>
+                                            Test
+                                        </Button> */}
                                         <Grid container>
                                             <SchoolRounded />
                                             <Typography style={{marginLeft: '1%'}}>{data.courseTitle} ({data.courseCode})</Typography>
@@ -196,7 +219,7 @@ function StudentPage(props:any) {
                                         </Box>
                                         <div style={{margin: '1rem'}}>
                                             <Typography style={{textAlign: 'center', marginBottom: '2%'}} variant="h5">Attendance By Period (%)</Typography>
-                                            <div style={{height: '19rem'}}>
+                                            <div id="attendanceByPeriod" style={{height: '19rem', width: "99%"}}>
                                                 <LineGraph data={data.studentData}/>
                                             </div>
                                         </div>
@@ -211,7 +234,7 @@ function StudentPage(props:any) {
                                         </Box>
                                         <div style={{margin: '1rem'}}>
                                             <Typography style={{textAlign: 'center', marginBottom: '2%'}} variant="h5">Overall Attendance</Typography>
-                                            <div style={{height: '19rem' , width: '100%'}}>
+                                            <div id="overallAttendance" style={{height: '19rem' , width: '99%'}}>
                                                 <PieChart data={data.studentData}/>
                                             </div>
                                         </div>
@@ -234,3 +257,29 @@ function StudentPage(props:any) {
 
 export default StudentPage
 
+const Prints = () => (
+    <div>
+      <h3>Time & Materials Statement of Work (SOW)</h3>
+      <h4>General Information</h4>
+      <table id="tab_customers" className="table table-striped">
+        <thead>
+          <tr className="warning">
+            <th>SOW Creation Date</th>
+            <th>SOW Start Date</th>
+            <th>Project</th>
+            <th>Last Updated</th>
+            <th>SOW End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dec 13, 2017</td>
+            <td>Jan 1, 2018</td>
+            <td>NM Connect - NMETNMCM</td>
+            <td>Dec 13, 2017</td>
+            <td>Dec 31, 2018</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );

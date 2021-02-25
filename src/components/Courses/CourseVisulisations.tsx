@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Card, Grid } from "@material-ui/core";
+import { Box, ButtonBase, Card, Grid, Typography } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import CoursePie from "./CoursePie";
 import CourseBar from "./CourseBar";
@@ -11,11 +11,15 @@ import { CourseContext } from "../../context/CourseContext";
 function CourseVisulisations() {
   const coursesContext = useContext(CourseContext);
   const [bigGraph, setBigGraph] = useState("");
+  const [graphTitle, setGraphTitle] = useState("")
 
   return (
     <>
     {bigGraph ? 
-      <GraphDialog open={true} closeDialog={() => setBigGraph("")}>
+      <GraphDialog open={true} closeDialog={() => {
+        setGraphTitle("");
+        setBigGraph("")
+        }} title={graphTitle} >
         {bigGraph === "pie" ?
         <div style={{ height: "29rem", width: "100%" }}>
           <CoursePie/>
@@ -39,11 +43,15 @@ function CourseVisulisations() {
       <Grid item xs={12} md={6}>
         <Card>
           <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-            <ButtonBase onClick={() => setBigGraph("pie")}>
+            <ButtonBase onClick={() => {
+              setGraphTitle("Attendance Statistics")
+              setBigGraph("pie");
+              }}>
               <Fullscreen />
             </ButtonBase>
           </Box>
-          <div style={{ height: "19rem", width: "100%" }}>
+          <Typography variant="h5" align="center">Attendance Statistics</Typography>
+          <div style={{ height: "19rem", width: "99%" }}>
             <CoursePie />
           </div>
         </Card>
@@ -51,11 +59,15 @@ function CourseVisulisations() {
       <Grid item xs={12} md={6}>
         <Card>
         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-        <ButtonBase onClick={() => setBigGraph("bar")}>
+        <ButtonBase onClick={() => {
+          setGraphTitle("Attendance Statistics By Year")
+          setBigGraph("bar")
+        }}>
           <Fullscreen />
         </ButtonBase>
         </Box>
-        <div style={{ height: "19rem", width: "100%" }}>
+        <Typography variant="h5" align="center">Attendance Statistics By Year</Typography>
+        <div style={{ height: "19rem", width: "99%" }}>
           <CourseBar />
         </div>
         </Card>
@@ -65,10 +77,14 @@ function CourseVisulisations() {
         <Grid item xs={12} md={6}>
           <Card>
           <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-            <ButtonBase onClick={() => setBigGraph("heat")}>
+            <ButtonBase onClick={() => {
+              setBigGraph("heat");
+              setGraphTitle("Course Attendance By Period")
+            }}>
               <Fullscreen />
             </ButtonBase>
           </Box>
+          <Typography variant="h5" align="center">Course Attendance By Period</Typography>
           <div style={{ height: "19rem", width: "90%" }}>
             <HeatMap/>
           </div>
@@ -77,11 +93,15 @@ function CourseVisulisations() {
         <Grid item xs={12} md={6}>
           <Card>
           <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-          <ButtonBase onClick={() => setBigGraph("scatter")}>
+          <ButtonBase onClick={() => {
+            setBigGraph("scatter")
+            setGraphTitle("Student Attendance Distribution");  
+          }}>
             <Fullscreen />
           </ButtonBase>
           </Box>
-          <div style={{ height: "19rem", width: "100%" }}>
+          <Typography variant="h5" align="center">Student Attendance Distribution</Typography>
+          <div style={{ height: "19rem", width: "99%" }}>
             <ScatterDiagram />
           </div>
           </Card>
