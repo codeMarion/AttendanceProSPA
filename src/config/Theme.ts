@@ -9,6 +9,15 @@ const Theme = createMuiTheme({
             main: '#39B6FF'
         }
     },
+    breakpoints: {
+        values: {
+          xs: 0,
+          sm: 600,
+          md: 960,
+          lg: 1495,
+          xl: 1920
+        }
+    },
     typography: {
         fontFamily: `Poppins, sans-serif`
     }

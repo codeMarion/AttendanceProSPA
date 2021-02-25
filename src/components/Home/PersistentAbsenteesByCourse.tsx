@@ -28,7 +28,7 @@ function PersistentAbsenteesByCourse() {
     }
 
     return (
-        <div style={{height: '19rem' , width: '100%'}}>
+        <div style={{height: '19rem' , width: '99%'}}>
         <ResponsivePie
         data={data}
         //@ts-ignore

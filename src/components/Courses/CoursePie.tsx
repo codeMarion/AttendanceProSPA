@@ -16,6 +16,7 @@ function CoursePie() {
       {id: "Non-Attended", label: "Non-Attended", value: 0, color: "hsl(254, 70%, 50%)"},
       {id: "Explained", label: "Explained", value: 0, color: "hsl(234, 70%, 50%)"},
     ])
+    const colors : any = { 'Non-Attended': 'rgb(228, 26, 28)', 'Explained': 'rgb(31, 119, 180)', 'Attended': 'rgb(44, 160, 44)' }
 
     useEffect(() => {
       getChartData();
@@ -41,14 +42,14 @@ function CoursePie() {
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.7}
-        colors={{ scheme: "category10" }}
+        colors={bar => colors[bar.id]}
         borderWidth={1}
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
         radialLabelsSkipAngle={10}
         radialLabelsTextColor="#333333"
         radialLabelsLinkColor={{ from: "color" }}
         sliceLabelsSkipAngle={10}
-        sliceLabelsTextColor="#333333"
+        sliceLabelsTextColor="#ffffff"
         sliceLabel={(item) => `${item.value}%`}
         legends={[
           {
