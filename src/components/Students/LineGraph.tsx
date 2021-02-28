@@ -34,7 +34,7 @@ export default function LineGraph(props: LineGraphProps) {
       </defs>
       <XAxis dataKey="name" />
       <YAxis domain={[0, 100]}/>
-      <Tooltip formatter={(value:number) => `${value}%`}/>
+      <Tooltip labelFormatter={(value:number) => `Period ${value}`}formatter={(value:number) => `${value}%`}/>
       <CartesianGrid />
       <Area
           type='monotone'
