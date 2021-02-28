@@ -1,4 +1,5 @@
 import { ResponsivePie } from "@nivo/pie";
+import percentRound from "percent-round";
 import React, { useEffect, useState } from "react";
 import StudentData from "../../models/StudentData";
 
@@ -7,22 +8,22 @@ interface PieChartProps {
 }
 
 export default function PieChart(props: PieChartProps) {
-  const [data, setData] = useState([
-    {id: "Attended",label: "Attended", value: 0, color: "hsl(174, 70%, 50%)"},
-    {id: "Teaching",label: "Teaching", value: 0, color: "hsl(204, 70%, 50%)"},
-    {id: "Explained",label: "Explained", value: 0, color: "hsl(234, 70%, 50%)"},
-    {id: "Non-Attended",label: "Non-Attended", value: 0, color: "hsl(254, 70%, 50%)"}
-  ]);
+  const [data, setData] = useState<any>([]);
+  const colors : any = { 'Non-Attended': 'rgb(228, 26, 28)', 'Explained': 'rgb(31, 119, 180)', 'Attended': 'rgb(44, 160, 44)' }
 
   useEffect(() => {
+    const dataValues = [0,0,0,0]
     props.data.map(item => {
-      setData(data => [
-        {id: "Attended",label: "Attended", value: data[0].value + item.attended, color: "hsl(174, 70%, 50%)"},
-        {id: "Teaching",label: "Teaching", value: data[1].value + item.teaching, color: "hsl(204, 70%, 50%)"},
-        {id: "Explained",label: "Explained", value: data[2].value + item.explained, color: "hsl(234, 70%, 50%)"},
-        {id: "Non-Attended",label: "Non-Attended", value: data[3].value + item.nonAttended, color: "hsl(254, 70%, 50%)"}
-      ])
+      dataValues[0] += item.attended;
+      dataValues[2] += item.explained;
+      dataValues[3] += item.nonAttended;
     })
+    const dataPercentages = percentRound(dataValues);
+    setData([
+      {id: "Attended",label: "Attended", value: dataPercentages[0], color: "hsl(174, 70%, 50%)"},
+      {id: "Explained",label: "Explained", value: dataPercentages[2], color: "hsl(234, 70%, 50%)"},
+      {id: "Non-Attended",label: "Non-Attended", value: dataPercentages[3], color: "hsl(254, 70%, 50%)"}
+    ])
   },[])
 
 
@@ -34,7 +35,8 @@ export default function PieChart(props: PieChartProps) {
         enableRadialLabels={false}
         sliceLabelsSkipAngle={1}
         sliceLabelsTextColor="#ffffff"
-        colors={{ scheme: "category10" }}
+        colors={bar => colors[bar.id]}
+        sliceLabel={(item) => `${item.value}%`}
         margin={{bottom:60,}}
         legends={[
           {
