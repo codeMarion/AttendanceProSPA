@@ -16,15 +16,17 @@ function StudentsTable() {
     useEffect(() => {
         GetPersistentStudents();
         GetNotAttendingStudentsCount();
-    },[])
+    },[showPersistent])
 
     async function GetPersistentStudents(){
+        setPage(0);
         const token = await Auth0.getAccessTokenSilently();
         const count = await controller.GetPersistentStudentsCount(token);
         setAbsenceCount(count);
     }
-
+    
     async function GetNotAttendingStudentsCount(){
+        setPage(0);
         const token = await Auth0.getAccessTokenSilently();
         const response = await controller.GetNotAttendingStudentsCount(token);
         setNotAttendingStudents(response);

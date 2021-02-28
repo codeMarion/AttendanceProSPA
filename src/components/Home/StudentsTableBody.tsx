@@ -30,20 +30,20 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
 
     async function GetPersistentStudents(){
         const token = await Auth0.getAccessTokenSilently();
-        const dbData = await controller.GetPersistentStudentsData(token, props.page);
+        const dbData = await controller.GetPersistentStudentsData(token, props.page + 1);
         setData(dbData);
     }
 
     async function GetNotAttendingStudents(){
         const token = await Auth0.getAccessTokenSilently();
-        const dbData = await controller.NonAttendingStudents(token, props.page);
+        const dbData = await controller.NonAttendingStudents(token, props.page + 1);
         setData(dbData);
     }
 
     return (
         <TableBody>
-                {data.map(item => (
-                    <TableRow className="item-hover" onClick={() => history.push(`students/${item.userId}`)}>
+                {data.map((item,i) => (
+                    <TableRow key={i} className="item-hover" onClick={() => history.push(`students/${item.userId}`)}>
                         <TableCell>
                             <Box>{item.userId}</Box>
                         </TableCell>
