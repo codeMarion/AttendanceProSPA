@@ -5,7 +5,7 @@ import StudentController from '../../api/StudentController';
 import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
-import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, SchoolRounded} from '@material-ui/icons';
+import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
 import GraphDialog from './../GraphDialog';
@@ -13,9 +13,11 @@ import Email from './Email';
 import { Tab } from '@material-ui/core';
 import Moment from "react-moment";
 import { AppContext } from '../../context/AppContext';
-import jsPDF from "jspdf";
-import domtoimage from 'dom-to-image';
-
+//@ts-ignore
+import SVGtoPDF from 'svg-to-pdfkit';
+//@ts-ignore
+import PDFDocument from 'pdfkit-browserify';
+import blobStream from 'blob-stream';
 
 
 function StudentPage(props:any) {
@@ -47,21 +49,36 @@ function StudentPage(props:any) {
             enqueueSnackbar('Student not found!', { variant: "error" });
         }
     }
-    // const renderTemplate = async() => {
-    //     const attendanceByPeriod = await domtoimage.toBlob(document.getElementById('attendanceByPeriod')!);
-    //     var reader = new FileReader();
-    //     reader.readAsDataURL(attendanceByPeriod); 
-    //     reader.onloadend = function() {
-    //         var base64data = reader.result;                
-    //         console.log(base64data);
-    //         var doc = new jsPDF()
-    //         doc.text("20", 20, 20)
-    //         doc.text('This is client-side Javascript, pumping out a PDF.', 20, 30)
-    //         //@ts-ignore
-    //         doc.addImage(base64data, 'PNG', 15, 40, 160, 80, 0, 'NONE')
-    //         doc.save();
-    //     }
-    // }
+    const printPDF = async() => {
+        PDFDocument.prototype.addSVG = function(svg:any, x:any, y:any, options:any) {
+            return SVGtoPDF(this, svg, x, y, options), this;
+        };
+        const overallAttendance = document.getElementById('overallAttendance')!.children[0].children[0].children[0];
+        const attendanceByPeriod = document.getElementById('attendanceByPeriod')!.children[0].children[0].children[0];
+        const logo = document.getElementsByClassName('MuiSvgIcon-root MuiSvgIcon-colorSecondary')[0]
+        var doc = new PDFDocument();
+        var stream = doc.pipe(blobStream())
+
+        doc.addSVG(logo, -100, 70, {preserveAspectRatio: 'None', height: 40, useCSS :true});
+        doc.fontSize(25).text('Attendance Pro', 100, 80, {align: 'center'});
+
+        doc.fontSize(15).text(`Student ID: ${data?.userId}`,50,130)
+        doc.fontSize(15).text(`Course: ${data?.courseTitle} (${data?.courseCode})`)
+        doc.fontSize(15).text(`Study Level: ${data?.studyLevel}`)
+
+        doc.fontSize(15).text('Overall Attendance',240,200)
+        doc.addSVG(overallAttendance, 50, 230, {preserveAspectRatio: 'None', height: 250, width: 500});
+
+        doc.fontSize(15).text('Attendance By Period',220,480)
+        doc.addSVG(attendanceByPeriod, -20, 500, {preserveAspectRatio: 'None', height: 200})
+        doc.fontSize(10).text('%',100,590)
+        doc.fontSize(10).text('Period',290,700)
+
+        doc.end();
+            stream.on('finish', function() {
+            window.open(stream.toBlobURL('application/pdf'));
+        });
+    }
 
     return (
         <>
@@ -69,7 +86,10 @@ function StudentPage(props:any) {
             {data ? 
                 <>
                     {bigGraph ? 
-                        <GraphDialog open={true} closeDialog={() => setBigGraph("")} title={graphTitle}>
+                        <GraphDialog open={true} closeDialog={() => {
+                            setBigGraph("");
+                            setGraphTitle("")
+                        }} title={graphTitle}>
                             {bigGraph === "pie" ?
                                 <div style={{ height: "29rem", width: "100%" }}>
                                     <PieChart data={data.studentData}/>
@@ -117,27 +137,31 @@ function StudentPage(props:any) {
                                         </Grid>
                                 </Grid>
                             </Grid>
-                            {data.email ? 
                             <Grid container xs={12}>
-                                <Tabs
-                                    onChange={(event, value) => setTab(tabs[value])}
-                                    indicatorColor='primary'
-                                    textColor='primary'
-                                    variant='scrollable'
-                                    scrollButtons='auto'
-                                    aria-label='scrollable auto tabs example'
-                                        >
-                                    {tabs.map((tab, index) => {
-                                    return (
-                                        <Tab
-                                        key={index}
-                                        label={tab}
-                                        />
-                                    );
-                                    })}
-                                </Tabs>
-                            </Grid> : <></> }
-                            {tab === 'Communication' ? <Email /> :
+                                <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
+                                    <Print />
+                                </ButtonBase>
+                                {data.email ? 
+                                    <Tabs
+                                        onChange={(event, value) => setTab(tabs[value])}
+                                        indicatorColor='primary'
+                                        textColor='primary'
+                                        variant='scrollable'
+                                        scrollButtons='auto'
+                                        aria-label='scrollable auto tabs example'
+                                            >
+                                        {tabs.map((tab, index) => {
+                                        return (
+                                            <Tab
+                                            key={index}
+                                            label={tab}
+                                            />
+                                        );
+                                        })}
+                                    </Tabs>
+                                : <></> }
+                            </Grid>
+                            {tab === 'Communication' ? <Email name={data.userId} email={data.email} /> :
                             <>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6}>
@@ -148,9 +172,6 @@ function StudentPage(props:any) {
                                             <PersonRounded />
                                             <Typography style={{marginLeft: '1%'}}>#{data.userId}</Typography>
                                         </Grid>
-                                        {/* <Button onClick={renderTemplate}>
-                                            Test
-                                        </Button> */}
                                         <Grid container>
                                             <SchoolRounded />
                                             <Typography style={{marginLeft: '1%'}}>{data.courseTitle} ({data.courseCode})</Typography>
@@ -213,7 +234,10 @@ function StudentPage(props:any) {
                                 <Grid item xs={12} lg={6} >
                                     <Card>
                                         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-                                            <ButtonBase onClick={() => setBigGraph("line")}>
+                                            <ButtonBase onClick={() => {
+                                                setGraphTitle("Attendance By Period (%)");
+                                                setBigGraph("line");
+                                            }}>
                                                 <Fullscreen />
                                             </ButtonBase>
                                         </Box>
@@ -228,7 +252,10 @@ function StudentPage(props:any) {
                                 <Grid item xs={12} lg={6} >
                                     <Card>
                                         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-                                            <ButtonBase onClick={() => setBigGraph("pie")}>
+                                            <ButtonBase onClick={() => {
+                                                setGraphTitle("Overall Attendance");
+                                                setBigGraph("pie")
+                                            }}>
                                                 <Fullscreen />
                                             </ButtonBase>
                                         </Box>
@@ -255,31 +282,4 @@ function StudentPage(props:any) {
     )
 }
 
-export default StudentPage
-
-const Prints = () => (
-    <div>
-      <h3>Time & Materials Statement of Work (SOW)</h3>
-      <h4>General Information</h4>
-      <table id="tab_customers" className="table table-striped">
-        <thead>
-          <tr className="warning">
-            <th>SOW Creation Date</th>
-            <th>SOW Start Date</th>
-            <th>Project</th>
-            <th>Last Updated</th>
-            <th>SOW End Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Dec 13, 2017</td>
-            <td>Jan 1, 2018</td>
-            <td>NM Connect - NMETNMCM</td>
-            <td>Dec 13, 2017</td>
-            <td>Dec 31, 2018</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
+export default StudentPage;
