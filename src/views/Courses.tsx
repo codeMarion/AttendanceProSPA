@@ -56,10 +56,10 @@ const Students = () => {
     <>
       {courses ? (
         <Grid container spacing={3}>
-          <Grid xs={12} className={classes.title}>
+          <Grid item xs={12} className={classes.title}>
             <Typography variant="h4">Courses</Typography>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <ButtonBase onClick={() => setFilterDrawer(true)}>
               <FilterIcon />
             </ButtonBase>
@@ -70,10 +70,10 @@ const Students = () => {
             onClose={() => setFilterDrawer(false)} 
           >
             <Grid >
-              <Grid xs={12} className={classes.filterCoursesTitle}>
+              <Grid item xs={12} className={classes.filterCoursesTitle}>
                 <Typography variant="h5" align="center">Filter Courses</Typography>
               </Grid>
-              <Grid container xs={12} className={classes.search}>
+              <Grid item xs={12} className={classes.search}>
                 <Autocomplete
                   options={courses}
                   getOptionLabel={(course) => course.courseTitle}

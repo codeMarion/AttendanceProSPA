@@ -68,20 +68,20 @@ const Students = () => {
     {students ? 
       <>
         <Grid container spacing={3}>
-          <Grid xs={12} className={classes.title}>
+          <Grid item xs={12} className={classes.title}>
             <Typography variant="h4">Students</Typography>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
               <ButtonBase onClick={() => setFilterDrawer(true)}>
                 <FilterIcon />
               </ButtonBase>
             </Grid>
-          {students.map(student => (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+          {students.map((student,i) => (
+            <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
               <StudentCard studentId={student.userId}/>
             </Grid>
           ))}
-          <Grid xs={12} className={classes.pagination}>
+          <Grid item xs={12} className={classes.pagination}>
             <Pagination count={pages} variant="outlined" onChange={(event, value) => setCurrPage(value)}/>
           </Grid>
         </Grid>
@@ -91,10 +91,10 @@ const Students = () => {
         onClose={() => setFilterDrawer(false)} 
       >
         <Grid >
-          <Grid xs={12} className={classes.filterStudentsTitle}>
+          <Grid item xs={12} className={classes.filterStudentsTitle}>
             <Typography variant="h5" align="center">Filter Students by Course</Typography>
           </Grid>
-          <Grid container xs={12} className={classes.search}>
+          <Grid item xs={12} className={classes.search}>
             <Autocomplete
               options={courses}
               getOptionLabel={(course) => course.courseTitle}
