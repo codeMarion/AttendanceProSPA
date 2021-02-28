@@ -6,7 +6,14 @@ import "react-vertical-timeline-component/style.min.css";
 import { useSnackbar } from 'notistack';
 import CommunicationController from "../../api/CommunicationController";
 import { useAuth0 } from "@auth0/auth0-react";
-function Email() {
+import Moment from "react-moment";
+
+interface EmailProps{
+  email:string;
+  name: number;
+}
+
+function Email(props: EmailProps) {
   const Auth0 = useAuth0();
   const { enqueueSnackbar } = useSnackbar();
   const [openNewEmailDialog, setNewEmailDialog] = useState(false);
@@ -14,6 +21,7 @@ function Email() {
   const [data, setData] = useState([]); 
   const [emailContent, setEmailContent] = useState('Dear Student,');
   const [emailSubject, setEmailSubject] = useState('Attendance Information');
+  const emailDelimiters = ['']
 
   useEffect(() => {
     GetEmails();
@@ -21,8 +29,8 @@ function Email() {
 
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
-    let res = await controller.GetConversations(token,"mari6n7795@gmail.com");
-    setData(res);
+    let res = await controller.GetConversations(token,props.email);
+    setData(res.reverse());
 }
 
 async function sendEmail(){
@@ -30,11 +38,11 @@ async function sendEmail(){
     const res = await controller.SendEmail(token,{
         fromName:"AttendancePro",
         fromEmail:"admin@em2322.attendancepro.co.uk",
-        toName:"Marion",
-        toEmail:"mari6n7795@gmail.com",
+        toName:props.name.toString(),
+        toEmail:props.email,
         subject:emailSubject,
         content:`${emailContent}`,
-        htmlContent:`<strong>${emailContent}</strong>`
+        htmlContent:`${emailContent}`
     });
     if(res){
         enqueueSnackbar('Email sent!', { variant: "success" });
@@ -43,6 +51,20 @@ async function sendEmail(){
         enqueueSnackbar('Error occurred!', { variant: "error" });
     }
     setNewEmailDialog(false);
+  }
+
+  function filterEmail(email:string){
+    let cleanEmailArr = email.replace(/\n/g, "<br />").split("<br />");
+    let index = 0;
+    for(let i = 0; i < cleanEmailArr.length; i++){
+      if(cleanEmailArr[i].includes("admin@em2322.attendancepro.co.uk")){
+        index = i - 1;
+        break;
+      }
+    }
+    let response = cleanEmailArr.slice(0, index).join("<br />");
+    console.log(response === "");
+    return response === "" ? email : response;
   }
 
   return (
@@ -60,8 +82,9 @@ async function sendEmail(){
             icon={email.fromEmail === "admin@em2322.attendancepro.co.uk" ? <School /> : <Person />}
             >
             <h3 className="vertical-timeline-element-title">{email.fromEmail === "admin@em2322.attendancepro.co.uk" ? 'Staff' : 'Student'}</h3>
+            <h4 className="vertical-timeline-element-subtitle">Date: <Moment format="DD/MM/YYYY HH:mm">{email.date}</Moment></h4>
             <h4 className="vertical-timeline-element-subtitle">University of Sussex</h4>
-            <div dangerouslySetInnerHTML={{__html: email.htmlContent}} />
+            <div dangerouslySetInnerHTML={{__html: email.fromEmail === "admin@em2322.attendancepro.co.uk" ? email.content : filterEmail(email.content)}} />
             </VerticalTimelineElement>
         ))}
         <VerticalTimelineElement
