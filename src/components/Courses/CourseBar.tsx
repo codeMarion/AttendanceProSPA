@@ -26,11 +26,7 @@ function CourseBar() {
         );
       const newBarData : BarProps[] = []
       res.absenceReasons.forEach(reason => {
-        newBarData.push({year: reason.year.toString(), attendance: reason.attended / reason.teaching})
-      });
-      const barPercentages = percentRound(newBarData.map(item => item.attendance));
-      barPercentages.forEach((percent,i) => {
-        newBarData[i].attendance = percent;
+        newBarData.push({year: reason.year.toString(), attendance: Math.ceil((reason.attended / reason.teaching) * 100)})
       });
       setChartData(newBarData)
     }
@@ -41,6 +37,7 @@ function CourseBar() {
         indexBy="year"
         margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
         padding={0.3}
+        maxValue={100}
         groupMode="grouped"
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
