@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 import StudentController from '../../api/StudentController';
 import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
 import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
@@ -33,9 +33,10 @@ function StudentPage(props:any) {
     const [graphTitle, setGraphTitle] = useState('');
     const appContext = useContext(AppContext);
     
+    
 
     useEffect(() => {  
-        appContext.setSearchBarValue("");      
+        appContext.setSearchBarValue("");
         fetchData();
     },[])
 
@@ -138,9 +139,13 @@ function StudentPage(props:any) {
                                 </Grid>
                             </Grid>
                             <Grid container xs={12}>
-                                <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
-                                    <Print />
-                                </ButtonBase>
+                                {tab === "Communication" ? 
+                                    <></> 
+                                    : 
+                                    <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
+                                        <Print />
+                                    </ButtonBase>
+                                }
                                 {data.email ? 
                                     <Tabs
                                         onChange={(event, value) => setTab(tabs[value])}
@@ -153,8 +158,8 @@ function StudentPage(props:any) {
                                         {tabs.map((tab, index) => {
                                         return (
                                             <Tab
-                                            key={index}
-                                            label={tab}
+                                                key={index}
+                                                label={tab}
                                             />
                                         );
                                         })}

@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@material-ui/core";
-import { Person, School, Star, Work } from "@material-ui/icons";
+import { Person, School, Star } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 import CommunicationController from "../../api/CommunicationController";
 import { useAuth0 } from "@auth0/auth0-react";
 import Moment from "react-moment";
+import EmailReminders from '../../config/EmailReminders';
 
 interface EmailProps{
   email:string;
@@ -21,19 +22,22 @@ function Email(props: EmailProps) {
   const [data, setData] = useState([]); 
   const [emailContent, setEmailContent] = useState('Dear Student,');
   const [emailSubject, setEmailSubject] = useState('Attendance Information');
-  const emailDelimiters = ['']
+
+
+  
 
   useEffect(() => {
     GetEmails();
+    console.log(Auth0.user)
   },[]);
 
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
     let res = await controller.GetConversations(token,props.email);
     setData(res.reverse());
-}
+  }
 
-async function sendEmail(){
+  async function sendEmail(){
     const token = await Auth0.getAccessTokenSilently();
     const res = await controller.SendEmail(token,{
         fromName:"AttendancePro",
@@ -69,8 +73,33 @@ async function sendEmail(){
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={() => setNewEmailDialog(true)} style={{marginTop: '5px'}}>
+      <Button variant="contained" color="primary" onClick={() => {
+        setEmailSubject('Attendance Information');
+        setEmailContent('Dear Student,')
+        setNewEmailDialog(true)
+      }} style={{marginTop: '5px'}}>
       Send New Email
+      </Button>
+      <Button variant="contained" color="primary" onClick={() => {
+        setEmailSubject("Warning #1");
+        setEmailContent(EmailReminders[0])
+        setNewEmailDialog(true)
+      }} style={{marginLeft: '5px',marginTop: '5px', marginRight: '5px'}}>
+      First Reminder
+      </Button>
+      <Button variant="contained" color="primary" onClick={() => {
+        setEmailSubject("Warning #2");
+        setEmailContent(EmailReminders[1])
+        setNewEmailDialog(true)
+      }} style={{marginTop: '5px', marginRight: '5px'}}>
+      Second Reminder
+      </Button>
+      <Button variant="contained" color="primary" onClick={() => {
+        setEmailSubject("Warning #3 (Final Warning)");
+        setEmailContent(EmailReminders[2])
+        setNewEmailDialog(true)
+      }} style={{marginTop: '5px', marginRight: '5px'}}>
+      Third Reminder
       </Button>
       <VerticalTimeline>
         {data.map((email:any,i) => (
@@ -98,9 +127,8 @@ async function sendEmail(){
             <TextField
             style={{marginBottom: '2%'}}
             label="Subject"
-            multiline
             rows={1}
-            defaultValue={emailSubject}
+            value={emailSubject}
             variant="outlined"
             fullWidth
             onChange={(e) => setEmailSubject(e.target.value)}

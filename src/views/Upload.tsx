@@ -8,6 +8,9 @@ import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import FileController from "../api/FileController";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Player } from "@lottiefiles/react-lottie-player";
+import Animation from '../config/upload_logo.json';
+import CommunicationController from "../api/CommunicationController";
 
 function getStepContent(step: number) {
   switch (step) {
@@ -31,6 +34,7 @@ const Upload = () => {
   const steps = getSteps();
   const { enqueueSnackbar } = useSnackbar();
   const fileController = new FileController();
+  const commsController = new CommunicationController();
   const Auth0 = useAuth0();
   const [accessToken, setAccessToken] = useState("");
 
@@ -48,6 +52,8 @@ const Upload = () => {
       if(response){
         uploadContext.setUploadedData([]);
         enqueueSnackbar('Data uploaded successfully!', { variant: "success" });
+        const token = await Auth0.getAccessTokenSilently();
+        await commsController.SendReminders(token);
       }else{
         enqueueSnackbar('Error occurred while uploading data!', { variant: "error" });
       }
@@ -104,6 +110,13 @@ const Upload = () => {
             </div>
           </div>
       </div>
+      <Player
+        autoplay
+        loop
+        src={Animation}
+        style={{ height: '25%', width: '25%' }}
+      >
+      </Player>
     </div>
   );
 };
