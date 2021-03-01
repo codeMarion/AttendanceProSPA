@@ -24,4 +24,14 @@ export default class CommunicationController
         });
         return response.ok;
     }
+
+    public async SendReminders(accessToken:string){
+        const response = await fetch(`${AuthConfig.API_URL}/Communication/reminders`,{
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+            }
+        });
+        return response.ok;
+    }
 }
