@@ -5,6 +5,7 @@ interface SmallInfoProps {
     title: string;
     data: string;
     imagesrc: string;
+    color: string;
 }
 
 const SmallInfo = (props:SmallInfoProps) => {
@@ -20,7 +21,7 @@ const SmallInfo = (props:SmallInfoProps) => {
                             {props.data}
                         </Typography>
                     </Box>
-                    <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center',marginRight: '10%', padding: '5px 10px 5px 10px', backgroundColor: 'lightblue', borderRadius: '50%'}}>
+                    <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center',marginRight: '10%', padding: '5px 10px 5px 10px', backgroundColor: props.color, borderRadius: '50%'}}>
                         <img style={{height: '70%'}} src={props.imagesrc} />
                     </Box>
                 </Box>

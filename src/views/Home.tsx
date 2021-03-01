@@ -59,13 +59,15 @@ const Home = () => {
                 title={"Total Students"}
                 data={studentCount.toString()}
                 imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
-              />
+                color="lightblue"
+                />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <SmallInfo
                 title={"Avg. Attendance"}
                 data={`${averageAttendance}%`}
                 imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                color="lightgreen"
                 />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
@@ -73,15 +75,16 @@ const Home = () => {
                 title={"Risk Students"}
                 data={persistentAbsenteesCount.toString()}
                 imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
-                // imagesrc={'https://img.icons8.com/color/48/000000/university.png'}
-              />
+                color="#ffccba"
+                />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
               <SmallInfo
                 title={"Not Attending"}
                 data={notAttendingStudents.toString()}
-                imagesrc={'https://img.icons8.com/color/48/000000/homework.png'}
-              />
+                imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                color="pink"
+                />
             </Grid>
             <Grid item xs={12} lg={6}>
               <Hidden smDown>

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DataGrid, ColDef } from '@material-ui/data-grid';
+import { DataGrid } from '@material-ui/data-grid';
 import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 import FileUploadStyles from '../styles/FileUploadStyles';
 
-const columns: ColDef[] = [
+const columns = [
   { field: 'userId', headerName: 'User', width: 120},
   { field: 'studyLevel', headerName: 'Level of Study', width: 150 },
   { field: 'regStatus', headerName: 'Registration Status', width: 180 },
