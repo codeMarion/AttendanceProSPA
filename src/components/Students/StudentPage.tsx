@@ -5,7 +5,7 @@ import StudentController from '../../api/StudentController';
 import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
-import {Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, SchoolRounded} from '@material-ui/icons';
+import {AddOutlined, Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, Remove, SchoolRounded} from '@material-ui/icons';
 import PieChart from './PieChart';
 import LineGraph from './LineGraph';
 import GraphDialog from './../GraphDialog';
@@ -18,11 +18,13 @@ import SVGtoPDF from 'svg-to-pdfkit';
 //@ts-ignore
 import PDFDocument from 'pdfkit-browserify';
 import blobStream from 'blob-stream';
+import UserController from '../../api/UserController';
 
 
 function StudentPage(props:any) {
     const Auth0 = useAuth0();
     const controller = new StudentController();
+    const userController = new UserController();
     const history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
     const [data, setData] = useState<Student>();
@@ -79,6 +81,19 @@ function StudentPage(props:any) {
             stream.on('finish', function() {
             window.open(stream.toBlobURL('application/pdf'));
         });
+    }
+
+    const updateTrackedStudents = async (action: string) => {
+        const token = await Auth0.getAccessTokenSilently();
+        let ids = appContext.trackedStudentsIds;
+        if(action === "ADD"){
+            ids = [...ids, data?.userId.toString()!]
+        }else{
+            ids = ids.filter(id => id !== data?.userId.toString());
+        }
+        console.log(ids.join(','));
+        appContext.setTrackedStudentIds(ids);
+        userController.UpdateTrackedStudents(token,ids.length > 0 ? ids.join(','): "CLEAR");
     }
 
     return (
@@ -142,9 +157,20 @@ function StudentPage(props:any) {
                                 {tab === "Communication" ? 
                                     <></> 
                                     : 
+                                    <>
+                                    {appContext.trackedStudentsIds.includes(data.userId.toString()) ?
+                                        <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("REMOVE")}>
+                                            <Remove />
+                                        </ButtonBase>
+                                    :
+                                        <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("ADD")}>
+                                            <AddOutlined /> 
+                                        </ButtonBase>
+                                    }
                                     <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
                                         <Print />
                                     </ButtonBase>
+                                    </>
                                 }
                                 {data.email ? 
                                     <Tabs
