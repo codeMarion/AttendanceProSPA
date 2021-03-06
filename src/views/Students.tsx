@@ -14,6 +14,7 @@ import { Autocomplete } from "@material-ui/lab";
 import CourseResponse from "../models/CourseResponse";
 import CourseController from "../api/CourseController";
 import UserController from "../api/UserController";
+import { FindInPage } from "@material-ui/icons";
 
 const Students = () => {
   const classes = StudentsStyles();
@@ -99,20 +100,21 @@ const Students = () => {
     {students ? 
       <>
         <Grid container spacing={3}>
+          <Grid xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <ButtonBase onClick={() => setFilterDrawer(true)}>
+                <FilterIcon />
+            </ButtonBase>
+          </Grid>
           <Grid item xs={12} className={classes.title}>
             <Typography variant="h4">Students</Typography>
           </Grid>
           <Grid item xs={12}>
-              <ButtonBase onClick={() => setFilterDrawer(true)}>
-                <FilterIcon />
-              </ButtonBase>
-          </Grid>
-          <Grid item xs={12}>
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch size="small" checked={showTrackedStudents} onChange={GetTrackedStudents} />}
-                label="Tracked Students"
-              />
+
+              <FormGroup>
+                <FormControlLabel
+                  label="Tracked Students"
+                  control={<Switch size="small" checked={showTrackedStudents} onChange={GetTrackedStudents} />}
+                />
             </FormGroup>
           </Grid>
           {students.map((student,i) => (

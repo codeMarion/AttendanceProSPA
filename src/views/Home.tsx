@@ -121,7 +121,13 @@ const Home = () => {
           </Grid>
         </>:        
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
-          <CircularProgress size={100} />
+          <Player
+            autoplay
+            loop
+            src={Animation}
+            style={{ height: '25%', width: '25%' }}
+          >
+          </Player>
         </div>
       }
     </>
