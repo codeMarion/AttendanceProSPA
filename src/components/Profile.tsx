@@ -15,7 +15,6 @@ export default function FormDialog() {
     const userContext = useContext(UserContext);
     const Auth0 = useAuth0();
     const [user, setUser] = useState({name: Auth0.user.name, email: Auth0.user.email})
-    
     return (
     <div>
       <Dialog open={userContext.profileUpdate} onClose={() => userContext.setProfileUpdate(false)} aria-labelledby="form-dialog-title">
@@ -34,6 +33,7 @@ export default function FormDialog() {
             value={user.name}
             onChange={(e) => setUser({...user, name: e.target.value})}
           />
+          {Auth0.user.sub.split('|')[0] === 'auth0' ?
           <TextField
             autoFocus
             margin="dense"
@@ -44,7 +44,8 @@ export default function FormDialog() {
             value={user.email}
             onChange={(e) => setUser({...user, email: e.target.value})}
           />
-        </DialogContent>
+          : <></> }
+          </DialogContent>
         <DialogActions>
           <Button onClick={async () => {
               userController.updateUser(await Auth0.getAccessTokenSilently(),user);
