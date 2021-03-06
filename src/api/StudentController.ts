@@ -130,4 +130,16 @@ export default class StudentController
         });        
         return response.ok ? await response.json() : false;
     }
+
+    public async GetTrackedStudents(accessToken: string, students: string[]){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/getTrackedStudents`,{
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            },
+            body: JSON.stringify(students)
+        });        
+        return response.ok ? await response.json() : false;
+    }
 }

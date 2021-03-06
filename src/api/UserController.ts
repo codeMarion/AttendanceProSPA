@@ -13,4 +13,23 @@ export default class UserController
             }
         });
     }
+
+    public async GetTrackedStudentIds(accessToken: string){
+        const res = await fetch(`${AuthConfig.API_URL}/User`,{
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+            }
+        });
+        return res.json();
+    }
+
+    public async UpdateTrackedStudents(accessToken: string, students: string){
+        const response = await fetch(`${AuthConfig.API_URL}/User/${students}`,{
+            method: 'PATCH',
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            },
+        });        
+        return response.ok ? true : false;
+    }
 }

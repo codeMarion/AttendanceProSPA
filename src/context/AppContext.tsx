@@ -2,15 +2,18 @@ import React, {createContext, useState} from 'react';
 
 export const AppContext = createContext({
     searchBarValue:"",
-    setSearchBarValue: (val : string) =>  {}
+    trackedStudentsIds: [""],
+    setSearchBarValue: (val : string) =>  {},
+    setTrackedStudentIds: (val : string[]) =>  {}
 });
 
 export const AppContextProvider : React.FC = ({children}) => {
 
     const [searchBarValue, setSearchBarValue] = useState("");
+    const [trackedStudentsIds, setTrackedStudentIds] = useState([""]);
 
     return(
-        <AppContext.Provider value={{searchBarValue, setSearchBarValue}}>
+        <AppContext.Provider value={{searchBarValue, setSearchBarValue, trackedStudentsIds, setTrackedStudentIds}}>
             {children}
         </AppContext.Provider>
     )

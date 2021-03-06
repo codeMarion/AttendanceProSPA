@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, ButtonBase, Chip, Divider, Drawer, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, Button, ButtonBase, Chip, Divider, Drawer, FormControlLabel, FormGroup, Grid, Switch, TextField, Typography } from "@material-ui/core";
 import StudentCard from "../components/Students/StudentCard";
 import Pagination from '@material-ui/lab/Pagination';
 import StudentController from "../api/StudentController";
@@ -13,6 +13,8 @@ import FilterIcon from "../assets/FilterIcon";
 import { Autocomplete } from "@material-ui/lab";
 import CourseResponse from "../models/CourseResponse";
 import CourseController from "../api/CourseController";
+import UserController from "../api/UserController";
+import { FindInPage } from "@material-ui/icons";
 
 const Students = () => {
   const classes = StudentsStyles();
@@ -24,9 +26,13 @@ const Students = () => {
   const [textInput, setTextInput] = useState('');
   const [chipData, setChipData] = useState<CourseResponse[]>([]);
   const [courses, setCourses] = useState<CourseResponse[]>([]);
+  const [showTrackedStudents, setShowTrackedStudents] = useState(false);
+  const [showPaginator, setShowPaginator] = useState(true);
   const controller = new StudentController();
   const courseController = new CourseController();
+  const userController = new UserController();
   const appContext = useContext(AppContext);
+  
 
   useEffect(() => {
     setPagesCount().then(() => GetStudents());
@@ -63,27 +69,64 @@ const Students = () => {
     setChipData(chipData.filter(c => c.courseCode !== course.courseCode));
   };
 
+  const GetTrackedStudents = async() => {
+    const status = showTrackedStudents;
+    setShowTrackedStudents(!showTrackedStudents);
+    const token = await Auth0.getAccessTokenSilently();
+    setCurrPage(1)
+    if(status){
+      setShowPaginator(true);
+      setPagesCount();
+      setStudents(await controller.GetStudentsPage(1, appContext.searchBarValue, chipData, token));
+    }else{
+      const user = await userController.GetTrackedStudentIds(token);
+      const ids : string = await user.metadata.students;
+      if(ids !== ""){
+          const idsArr = ids.split(',').filter(id => id != "");
+          appContext.setTrackedStudentIds(idsArr);
+          const trackedStudents = await controller.GetTrackedStudents(token,idsArr);
+          setStudents(trackedStudents);
+      }
+      else{
+        setPages(1)
+        setStudents([]);
+      }
+      setShowPaginator(false);
+    }
+  }
+
   return (
     <>
     {students ? 
       <>
         <Grid container spacing={3}>
+          <Grid xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <ButtonBase onClick={() => setFilterDrawer(true)}>
+                <FilterIcon />
+            </ButtonBase>
+          </Grid>
           <Grid item xs={12} className={classes.title}>
             <Typography variant="h4">Students</Typography>
           </Grid>
           <Grid item xs={12}>
-              <ButtonBase onClick={() => setFilterDrawer(true)}>
-                <FilterIcon />
-              </ButtonBase>
-            </Grid>
+
+              <FormGroup>
+                <FormControlLabel
+                  label="Tracked Students"
+                  control={<Switch size="small" checked={showTrackedStudents} onChange={GetTrackedStudents} />}
+                />
+            </FormGroup>
+          </Grid>
           {students.map((student,i) => (
             <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
               <StudentCard studentId={student.userId}/>
             </Grid>
           ))}
+          {showPaginator ? 
           <Grid item xs={12} className={classes.pagination}>
             <Pagination count={pages} variant="outlined" onChange={(event, value) => setCurrPage(value)}/>
           </Grid>
+          : <></> }
         </Grid>
         <Drawer variant="temporary" anchor={"right"} 
         open={filterDrawer} 
