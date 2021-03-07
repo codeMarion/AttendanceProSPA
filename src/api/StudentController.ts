@@ -50,8 +50,8 @@ export default class StudentController
         return response.ok ? await response.json() : false;
     }
 
-    public async GetPersistentStudentsCount(accessToken: string){
-        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsence`,{
+    public async GetPersistentStudentsCount(accessToken: string, margin: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenceCount/${margin / 100}`,{
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
@@ -68,8 +68,8 @@ export default class StudentController
         return response.ok ? await response.json() : false;
     }
 
-    public async GetPersistentStudentsData(accessToken: string, page: number){
-        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsence/${page}`,{
+    public async GetPersistentStudentsData(accessToken: string, page: number, margin: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsence/${margin / 100}/${page}`,{
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
@@ -86,8 +86,8 @@ export default class StudentController
         return response.ok ? await response.json() : false;
     }
 
-    public async GetPersistentAbsenteesByYear(accessToken: string){
-        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByYear`,{
+    public async GetPersistentAbsenteesByYear(accessToken: string, margin: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByYear/${margin / 100}`,{
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
@@ -104,8 +104,8 @@ export default class StudentController
         return response.ok ? await response.json() : false;
     }
 
-    public async GetPersistentAbsenteesByCourse(accessToken: string){
-        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByCourse`,{
+    public async GetPersistentAbsenteesByCourse(accessToken: string, margin: number){
+        const response = await fetch(`${AuthConfig.API_URL}/Student/persistentAbsenteesCountByCourse/${margin / 100}`,{
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }

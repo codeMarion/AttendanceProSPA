@@ -1,21 +1,22 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { ResponsivePie } from '@nivo/pie'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import StudentController from '../../api/StudentController';
+import { AppContext } from '../../context/AppContext';
 
 function PersistentAbsenteesByCourse() {
 
     const Auth0 = useAuth0();
     const controller = new StudentController();
     const [data, setData] = useState([]);
-
+    const appContext = useContext(AppContext);
     useEffect(() => {
       fetchData();
-    },[])
+    },[appContext.riskStudentThreshold])
 
     async function fetchData(){
       const token = await Auth0.getAccessTokenSilently();
-      const response = await controller.GetPersistentAbsenteesByCourse(token);
+      const response = await controller.GetPersistentAbsenteesByCourse(token,appContext.riskStudentThreshold);
       let newResponse = response.data.map((item:any,i:number) => {
         return {
           id: item.course,

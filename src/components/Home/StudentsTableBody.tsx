@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Hidden, TableBody, TableCell, TableRow } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import StudentController from '../../api/StudentController';
+import { AppContext } from '../../context/AppContext';
 import StudentData from '../../models/StudentData';
 
 
@@ -19,18 +20,18 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
     const controller = new StudentController();
     const history = useHistory();
     const [data, setData] = useState<any[]>([]);
-
+    const appContext = useContext(AppContext);
     useEffect(() => {
         if(props.persistentView){
             GetPersistentStudents();
         }else{
             GetNotAttendingStudents();
         }
-    },[props.page, props.persistentView])
+    },[props.page, props.persistentView,appContext.riskStudentThreshold])
 
     async function GetPersistentStudents(){
         const token = await Auth0.getAccessTokenSilently();
-        const dbData = await controller.GetPersistentStudentsData(token, props.page + 1);
+        const dbData = await controller.GetPersistentStudentsData(token, props.page + 1, appContext.riskStudentThreshold);
         setData(dbData);
     }
 
@@ -57,9 +58,9 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
                             <Box style={{textAlign: 'center'}}>{Math.round(item.attendancePercentage * 100)}%</Box>
                         </TableCell>
                         <TableCell>
-                            {item.attendancePercentage < 0.4 ?
+                            {item.attendancePercentage < appContext.riskStudentThreshold - 0.4 ?
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'red', borderRadius: 50}}>Critical</Box>
-                            :item.attendancePercentage < 0.6 ?
+                            :item.attendancePercentage < appContext.riskStudentThreshold - 0.2 ?
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF1493', borderRadius: 50}}>Very Bad</Box>
                             :
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF4500', borderRadius: 50}}>Bad</Box>
