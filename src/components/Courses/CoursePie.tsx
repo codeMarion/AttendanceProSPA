@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { ResponsivePie } from '@nivo/pie'
+import { ResponsivePie } from '@nivo/pie';
 import percentRound from 'percent-round';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import CourseController from '../../api/CourseController';
 import { CourseContext } from '../../context/CourseContext';
 import AbsenceReasonsResponse from '../../models/AbsenceReasonsResponse';

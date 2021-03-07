@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ResponsiveHeatMapCanvas } from "@nivo/heatmap";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ResponsiveHeatMapCanvas } from "@nivo/heatmap";
+import React, { useContext, useEffect, useState } from "react";
 import CourseController from "../../api/CourseController";
 import { CourseContext } from "../../context/CourseContext";
 

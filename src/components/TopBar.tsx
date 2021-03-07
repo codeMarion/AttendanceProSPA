@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
-import { Search } from "@material-ui/icons";
-import { InputBase, Menu, MenuItem } from "@material-ui/core";
-import TopBarStyles from "../styles/TopBarStyles";
-import Avatar from "@material-ui/core/Avatar";
 import { useAuth0 } from "@auth0/auth0-react";
-import { UserContext } from "../context/UserContext";
-import { AppContext } from "../context/AppContext";
+import { InputBase, Menu, MenuItem } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import { Search } from "@material-ui/icons";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import { UserContext } from "../context/UserContext";
+import TopBarStyles from "../styles/TopBarStyles";
 const TopBar = () => {
   const Auth0 = useAuth0();
   const history = useHistory();

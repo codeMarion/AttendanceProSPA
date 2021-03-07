@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Box, ButtonBase, Chip, Divider, Drawer, Grid, SvgIcon, TextField, Typography, } from "@material-ui/core";
 import { useAuth0 } from "@auth0/auth0-react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import CourseResponse from "../models/CourseResponse";
-import CourseController from "../api/CourseController";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { Box, ButtonBase, Chip, Divider, Drawer, Grid, TextField, Typography } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import CourseVisulisations from "../components/Courses/CourseVisulisations";
-import CoursesStyles from "../styles/CoursesStyles";
+import React, { useContext, useEffect, useState } from "react";
+import CourseController from "../api/CourseController";
 import FilterIcon from "../assets/FilterIcon";
-import { useContext } from "react";
+import CourseVisulisations from "../components/Courses/CourseVisulisations";
+import Loading from '../config/loading.json';
 import { CourseContext } from "../context/CourseContext";
+import CourseResponse from "../models/CourseResponse";
+import CoursesStyles from "../styles/CoursesStyles";
 
 const Students = () => {
   const classes = CoursesStyles();
@@ -99,7 +99,12 @@ const Students = () => {
         </Grid>
       ) : (
         <div className={classes.loading} color="secondary">
-          <CircularProgress size={100} />
+          <Player
+            autoplay
+            loop
+            src={Loading}
+          >
+          </Player>
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import React, { useContext, useEffect, useState } from 'react';
 import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 import FileUploadStyles from '../styles/FileUploadStyles';
