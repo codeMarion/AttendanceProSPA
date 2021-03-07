@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, ButtonBase, Chip, Divider, Drawer, FormControlLabel, FormGroup, Grid, Switch, TextField, Typography } from "@material-ui/core";
-import StudentCard from "../components/Students/StudentCard";
-import Pagination from '@material-ui/lab/Pagination';
-import StudentController from "../api/StudentController";
-import { AppContext } from "../context/AppContext";
-import { useContext } from "react";
-import StudentPage from "../models/StudentPage";
 import { useAuth0 } from "@auth0/auth0-react";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import StudentsStyles from "../styles/StudentsStyles";
-import FilterIcon from "../assets/FilterIcon";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { Box, ButtonBase, Chip, Divider, Drawer, FormControlLabel, FormGroup, Grid, Switch, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import CourseResponse from "../models/CourseResponse";
+import Pagination from '@material-ui/lab/Pagination';
+import React, { useContext, useEffect, useState } from "react";
 import CourseController from "../api/CourseController";
+import StudentController from "../api/StudentController";
 import UserController from "../api/UserController";
-import { FindInPage } from "@material-ui/icons";
+import FilterIcon from "../assets/FilterIcon";
+import StudentCard from "../components/Students/StudentCard";
+import Loading from '../config/loading.json';
+import { AppContext } from "../context/AppContext";
+import CourseResponse from "../models/CourseResponse";
+import StudentPage from "../models/StudentPage";
+import StudentsStyles from "../styles/StudentsStyles";
 
 const Students = () => {
   const classes = StudentsStyles();
@@ -82,7 +81,7 @@ const Students = () => {
       const user = await userController.GetTrackedStudentIds(token);
       const ids : string = await user.metadata.students;
       if(ids !== "" && ids !== null){
-          const idsArr = ids.split(',').filter(id => id != "");
+          const idsArr = ids.split(',').filter(id => id !== "");
           appContext.setTrackedStudentIds(idsArr);
           const trackedStudents = await controller.GetTrackedStudents(token,idsArr);
           setStudents(trackedStudents);
@@ -161,7 +160,12 @@ const Students = () => {
       </>
     :
       <div className={classes.loading} color="secondary">
-        <CircularProgress size={100} />
+          <Player
+            autoplay
+            loop
+            src={Loading}
+          >
+          </Player>
       </div>
     }
     </>

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { AppBar, CssBaseline, Hidden, IconButton, Toolbar, Drawer as DrawerMUI } from "@material-ui/core";
+import { useAuth0 } from "@auth0/auth0-react";
+import { AppBar, CssBaseline, Drawer as DrawerMUI, Hidden, IconButton, Toolbar } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import LayoutStyles from "../styles/LayoutStyles";
-import Drawer from "./Drawer";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Routes from "../config/Routes";
-import TopBar from "./TopBar";
-import { useAuth0 } from "@auth0/auth0-react";
+import LayoutStyles from "../styles/LayoutStyles";
+import Drawer from "./Drawer";
 import Profile from "./Profile";
 import StudentPage from "./Students/StudentPage";
+import TopBar from "./TopBar";
 
 const Layout = () => {
   const Auth0 = useAuth0();

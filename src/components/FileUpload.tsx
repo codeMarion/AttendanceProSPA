@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
-import "../styles/FileUpload.css";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import * as XLSX from 'xlsx';
-import {parse, ParseResult} from 'papaparse';
 import { Typography } from '@material-ui/core';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { parse } from 'papaparse';
+import React, { useContext } from 'react';
+import * as XLSX from 'xlsx';
 import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
+import "../styles/FileUpload.css";
 
 const dataHeaders = [
   "userId",

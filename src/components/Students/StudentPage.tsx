@@ -1,25 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-import StudentController from '../../api/StudentController';
-import Student from '../../models/Student';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, ButtonBase, Card, CircularProgress, Grid, Hidden, Tabs, TextField, Typography } from '@material-ui/core';
-import {AddOutlined, Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, Remove, SchoolRounded} from '@material-ui/icons';
-import PieChart from './PieChart';
-import LineGraph from './LineGraph';
-import GraphDialog from './../GraphDialog';
-import Email from './Email';
-import { Tab } from '@material-ui/core';
-import Moment from "react-moment";
-import { AppContext } from '../../context/AppContext';
-//@ts-ignore
-import SVGtoPDF from 'svg-to-pdfkit';
+import { Player } from "@lottiefiles/react-lottie-player";
+import { Box, ButtonBase, Card, Grid, Hidden, Tab, Tabs, TextField, Typography } from '@material-ui/core';
+import { AddOutlined, Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, Remove, SchoolRounded } from '@material-ui/icons';
+import blobStream from 'blob-stream';
+import { useSnackbar } from 'notistack';
 //@ts-ignore
 import PDFDocument from 'pdfkit-browserify';
-import blobStream from 'blob-stream';
+import React, { useContext, useEffect, useState } from 'react';
+import Moment from "react-moment";
+import { useHistory } from 'react-router-dom';
+//@ts-ignore
+import SVGtoPDF from 'svg-to-pdfkit';
+import StudentController from '../../api/StudentController';
 import UserController from '../../api/UserController';
 import Grad from '../../assets/grad.png';
+import Loading from '../../config/loading.json';
+import { AppContext } from '../../context/AppContext';
+import Student from '../../models/Student';
+import GraphDialog from './../GraphDialog';
+import Email from './Email';
+import LineGraph from './LineGraph';
+import PieChart from './PieChart';
 
 
 function StudentPage(props:any) {
@@ -48,7 +49,7 @@ function StudentPage(props:any) {
         const response = await controller.GetStudent(props.match.params.student, token);
         if(response){
             setData(await response)
-        }else if(response == false){
+        }else if(response === false){
             history.push("/students");
             enqueueSnackbar('Student not found!', { variant: "error" });
         }
@@ -306,7 +307,12 @@ function StudentPage(props:any) {
                 </>
             :
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
-                    <CircularProgress size={100} />
+                    <Player
+                        autoplay
+                        loop
+                        src={Loading}
+                    >
+                    </Player>
                 </div>
             }           
         </div>

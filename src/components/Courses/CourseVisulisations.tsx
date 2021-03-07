@@ -1,12 +1,12 @@
 import { Box, ButtonBase, Card, Grid, Typography } from "@material-ui/core";
+import { Fullscreen } from "@material-ui/icons";
 import React, { useContext, useState } from "react";
-import CoursePie from "./CoursePie";
+import { CourseContext } from "../../context/CourseContext";
+import GraphDialog from "./../GraphDialog";
 import CourseBar from "./CourseBar";
+import CoursePie from "./CoursePie";
 import HeatMap from "./HeatMap";
 import ScatterDiagram from "./ScatterDiagram";
-import { Fullscreen } from "@material-ui/icons";
-import GraphDialog from "./../GraphDialog";
-import { CourseContext } from "../../context/CourseContext";
 
 function CourseVisulisations() {
   const coursesContext = useContext(CourseContext);

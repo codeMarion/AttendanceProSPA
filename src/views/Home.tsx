@@ -1,15 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, Button, ButtonBase, Card, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Hidden, InputLabel, MenuItem, Select, TextField, Typography } from "@material-ui/core";
-import { SwapHoriz } from "@material-ui/icons";
+import { Card, CardContent, Dialog, DialogContent, DialogContentText, DialogTitle, Grid, Hidden, MenuItem, Select, Typography } from "@material-ui/core";
 import React, { useContext, useEffect, useState } from "react";
 import StudentController from "../api/StudentController";
+import Grad from '../assets/grad.png';
 import AbsenceStartGraph from "../components/Home/AbsenceStartGraph";
 import PersistentAbsenteesByCourse from "../components/Home/PersistentAbsenteesByCourse";
 import PersistentAbsenteesByYearChart from "../components/Home/PersistentAbsenteesByYearChart";
 import SmallInfo from "../components/Home/SmallInfo";
 import StudentsTable from "../components/Home/StudentsTable";
-import Grad from '../assets/grad.png';
+import Loading from '../config/loading.json';
 import { AppContext } from "../context/AppContext";
 
 const Home = () => {
@@ -153,7 +153,12 @@ const Home = () => {
           </Grid>
         </>:        
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
-          <CircularProgress size={100} />
+          <Player
+            autoplay
+            loop
+            src={Loading}
+          >
+          </Player>
         </div>
       }
     </>

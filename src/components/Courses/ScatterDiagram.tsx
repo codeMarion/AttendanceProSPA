@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ResponsiveScatterPlot, ResponsiveScatterPlotCanvas } from '@nivo/scatterplot'
-import ScatterProps from '../../models/ScatterProps'
 import { useAuth0 } from '@auth0/auth0-react';
+import { ResponsiveScatterPlotCanvas } from '@nivo/scatterplot';
+import React, { useContext, useEffect, useState } from 'react';
 import CourseController from '../../api/CourseController';
 import { CourseContext } from '../../context/CourseContext';
+import ScatterProps from '../../models/ScatterProps';
 
 function ScatterDiagram() {
     const Auth0 = useAuth0();

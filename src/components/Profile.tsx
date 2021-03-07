@@ -1,14 +1,14 @@
-import React, {useContext, useState} from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { UserContext } from '../context/UserContext';
-import { useAuth0 } from '@auth0/auth0-react';
+import TextField from '@material-ui/core/TextField';
+import React, { useContext, useState } from 'react';
 import UserController from '../api/UserController';
+import { UserContext } from '../context/UserContext';
 
 export default function FormDialog() {
     const userController = new UserController();

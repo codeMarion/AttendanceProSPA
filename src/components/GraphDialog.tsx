@@ -1,5 +1,5 @@
 import { Box, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
-import React from 'react'
+import React from 'react';
 
 interface GraphDialogProps {
     open: boolean,
