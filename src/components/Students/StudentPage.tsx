@@ -19,6 +19,7 @@ import SVGtoPDF from 'svg-to-pdfkit';
 import PDFDocument from 'pdfkit-browserify';
 import blobStream from 'blob-stream';
 import UserController from '../../api/UserController';
+import Grad from '../../assets/grad.png';
 
 
 function StudentPage(props:any) {
@@ -122,7 +123,7 @@ function StudentPage(props:any) {
                             <Grid container spacing={3}>
                                 <Grid item style={{display: 'flex', width: '100%'}}>
                                 <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center', padding: '5px 10px 5px 10px', backgroundColor: 'lightblue', borderRadius: '50%'}}>
-                                    <img style={{height: '70%'}} src={'https://img.icons8.com/color/48/000000/student-male--v1.png'} />
+                                    <img style={{height: '70%'}} src={Grad} />
                                 </Box>
                                         <Grid container style={{width: '100%', justifyContent: 'space-between'}}>
                                             <Grid xs={12} md={8} >

@@ -81,7 +81,7 @@ const Students = () => {
     }else{
       const user = await userController.GetTrackedStudentIds(token);
       const ids : string = await user.metadata.students;
-      if(ids !== ""){
+      if(ids !== "" && ids !== null){
           const idsArr = ids.split(',').filter(id => id != "");
           appContext.setTrackedStudentIds(idsArr);
           const trackedStudents = await controller.GetTrackedStudents(token,idsArr);
@@ -102,7 +102,7 @@ const Students = () => {
         <Grid container spacing={3}>
           <Grid xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <ButtonBase onClick={() => setFilterDrawer(true)}>
-                <FilterIcon />
+                {!showTrackedStudents ? <FilterIcon /> : <></>}
             </ButtonBase>
           </Grid>
           <Grid item xs={12} className={classes.title}>

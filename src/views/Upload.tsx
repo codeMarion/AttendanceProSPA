@@ -41,6 +41,10 @@ const Upload = () => {
   useEffect(() => {
     Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
   },[Auth0])
+
+  useEffect(() => {
+    uploadContext.setUploadedData([]);
+  },[])
   
   const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

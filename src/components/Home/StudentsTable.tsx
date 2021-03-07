@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box, ButtonBase, Table, TablePagination, Typography } from '@material-ui/core'
 import StudentsTableBody from './StudentsTableBody'
 import StudentsTableHeader from './StudentsTableHeader'
 import { useAuth0 } from '@auth0/auth0-react';
 import StudentController from '../../api/StudentController';
 import { SwapHoriz } from '@material-ui/icons';
+import { AppContext } from '../../context/AppContext';
 
 function StudentsTable() {
     const [notAttendingStudents, setNotAttendingStudents] = useState<number>(0);
@@ -13,15 +14,16 @@ function StudentsTable() {
     const [showPersistent, setShowPersistent] = useState(true);
     const Auth0 = useAuth0();
     const controller = new StudentController();
+    const appContext = useContext(AppContext);
     useEffect(() => {
         GetPersistentStudents();
         GetNotAttendingStudentsCount();
-    },[showPersistent])
+    },[showPersistent,appContext.riskStudentThreshold])
 
     async function GetPersistentStudents(){
         setPage(0);
         const token = await Auth0.getAccessTokenSilently();
-        const count = await controller.GetPersistentStudentsCount(token);
+        const count = await controller.GetPersistentStudentsCount(token, appContext.riskStudentThreshold);
         setAbsenceCount(count);
     }
     

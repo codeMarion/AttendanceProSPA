@@ -46,11 +46,11 @@ export default function FormDialog() {
           />
           : <></> }
           </DialogContent>
-        <DialogActions>
+        <DialogActions style={{display: 'flex',justifyContent: 'flex-start', paddingLeft: '20px'}}>
           <Button onClick={async () => {
               userController.updateUser(await Auth0.getAccessTokenSilently(),user);
               userContext.setProfileUpdate(false);
-          }} color="primary">
+          }} variant="outlined" color="primary">
             Save Changes
           </Button>
         </DialogActions>

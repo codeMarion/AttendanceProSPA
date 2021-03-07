@@ -10,6 +10,9 @@
     border-radius: 1rem;
     border: 1px dashed black;
 }
+.upload-done{
+    background-color: rgba(0, 255, 149, 0.678);
+}
 .item-hover:hover{
     background-color: rgb(212, 241, 250);
     cursor: pointer;

@@ -1,14 +1,16 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, ButtonBase, Card, CardContent, CircularProgress, Grid, Hidden, Typography } from "@material-ui/core";
+import { Box, Button, ButtonBase, Card, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Hidden, InputLabel, MenuItem, Select, TextField, Typography } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import StudentController from "../api/StudentController";
 import AbsenceStartGraph from "../components/Home/AbsenceStartGraph";
 import PersistentAbsenteesByCourse from "../components/Home/PersistentAbsenteesByCourse";
 import PersistentAbsenteesByYearChart from "../components/Home/PersistentAbsenteesByYearChart";
 import SmallInfo from "../components/Home/SmallInfo";
 import StudentsTable from "../components/Home/StudentsTable";
+import Grad from '../assets/grad.png';
+import { AppContext } from "../context/AppContext";
 
 const Home = () => {
 
@@ -18,12 +20,13 @@ const Home = () => {
   const [persistentAbsenteesCount, setPersistentAbsenteesCount] = useState<number>();
   const [averageAttendance, setAverageAttendance] = useState<number>();
   const [notAttendingStudents, setNotAttendingStudents] = useState<number>();
+  const appContext = useContext(AppContext);
   useEffect(() => {
     getSmallCardData();
     getPersistentStudentsCount();
     getAverageAttendance();
     getNotAttendingStudentsCount();
-  },[]);
+  },[appContext.riskStudentThreshold]);
 
   const getSmallCardData = async() => {
     const token = await Auth0.getAccessTokenSilently();
@@ -33,7 +36,7 @@ const Home = () => {
 
   async function getPersistentStudentsCount(){
     const token = await Auth0.getAccessTokenSilently();
-    const count = await studentController.GetPersistentStudentsCount(token);
+    const count = await studentController.GetPersistentStudentsCount(token, appContext.riskStudentThreshold);
     setPersistentAbsenteesCount(count);
   }
 
@@ -51,6 +54,35 @@ const Home = () => {
 
   return (
     <>
+      {appContext.showThresholdDialog ? 
+            <Dialog open={appContext.showThresholdDialog} onClose={() => appContext.setShowThresholdDialog(false)} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Risk Student Levels</DialogTitle>
+            <DialogContent style={{marginBottom: '10px'}}>
+              <DialogContentText>
+                Change Risk Students Level
+              </DialogContentText>
+              <Select
+                style={{marginBottom: '10px'}}
+                fullWidth
+                onChange={(e:any) => {
+                  appContext.setRiskStudentThreshold(e.target.value);
+                  appContext.setShowThresholdDialog(false)
+                }}
+              >
+                <MenuItem value={90}>90%</MenuItem>
+                <MenuItem value={80}>80%</MenuItem>
+                <MenuItem value={70}>70%</MenuItem>
+                <MenuItem value={60}>60%</MenuItem>
+              </Select>
+
+              <Typography>Current Levels</Typography>
+              <Typography>Critical: 0% - {appContext.riskStudentThreshold - 41}%</Typography>
+              <Typography>Very Bad: {appContext.riskStudentThreshold - 40}% - {appContext.riskStudentThreshold - 21}%</Typography>
+              <Typography>Bad: {appContext.riskStudentThreshold - 20}% - {appContext.riskStudentThreshold}%</Typography>
+              </DialogContent>
+          </Dialog>
+      :
+      <></>}
       {studentCount && averageAttendance && persistentAbsenteesCount && notAttendingStudents ?
           <>
           <Grid container spacing={3}>
@@ -58,7 +90,7 @@ const Home = () => {
               <SmallInfo
                 title={"Total Students"}
                 data={studentCount.toString()}
-                imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                imagesrc={Grad}
                 color="lightblue"
                 />
             </Grid>
@@ -66,7 +98,7 @@ const Home = () => {
               <SmallInfo
                 title={"Avg. Attendance"}
                 data={`${averageAttendance}%`}
-                imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                imagesrc={Grad}
                 color="lightgreen"
                 />
             </Grid>
@@ -74,7 +106,7 @@ const Home = () => {
               <SmallInfo
                 title={"Risk Students"}
                 data={persistentAbsenteesCount.toString()}
-                imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                imagesrc={Grad}
                 color="#ffccba"
                 />
             </Grid>
@@ -82,7 +114,7 @@ const Home = () => {
               <SmallInfo
                 title={"Not Attending"}
                 data={notAttendingStudents.toString()}
-                imagesrc={'https://img.icons8.com/color/48/000000/student-male--v1.png'}
+                imagesrc={Grad}
                 color="pink"
                 />
             </Grid>
@@ -121,13 +153,7 @@ const Home = () => {
           </Grid>
         </>:        
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
-          <Player
-            autoplay
-            loop
-            src={Animation}
-            style={{ height: '25%', width: '25%' }}
-          >
-          </Player>
+          <CircularProgress size={100} />
         </div>
       }
     </>

@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, ButtonBase, Typography } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -12,24 +12,25 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import StudentController from "../../api/StudentController";
+import { AppContext } from "../../context/AppContext";
 
 const PersistentAbsenteesByYearChart = () => {
   const Auth0 = useAuth0();
   const controller = new StudentController();
   const [data, setData] = useState([]);
   const [showPersistent, setShowPersistent] = useState(true);
-
+  const appContext = useContext(AppContext);
   useEffect(() => {
     if(showPersistent){
       GetPersistentAbsentees();
     }else{
       GetNotAttendingAbsentees();
     }
-  },[showPersistent])
+  },[showPersistent,appContext.riskStudentThreshold])
 
   async function GetPersistentAbsentees(){
     const token = await Auth0.getAccessTokenSilently();
-    let response = await controller.GetPersistentAbsenteesByYear(token);
+    let response = await controller.GetPersistentAbsenteesByYear(token, appContext.riskStudentThreshold);
     setData(response);
   }
 

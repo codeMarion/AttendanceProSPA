@@ -65,6 +65,12 @@ const TopBar = () => {
         }}>
           Profile
         </MenuItem>
+        <MenuItem onClick={() => {
+          setAnchorEl(null);
+          appContext.setShowThresholdDialog(true)
+        }}>
+          Configure Risk Levels
+        </MenuItem>
         <MenuItem onClick={logout}>
           Log Out
         </MenuItem>

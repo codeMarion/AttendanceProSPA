@@ -56,14 +56,15 @@ const Students = () => {
     <>
       {courses ? (
         <Grid container spacing={3}>
-          <Grid item xs={12} className={classes.title}>
-            <Typography variant="h4">Courses</Typography>
-          </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <ButtonBase onClick={() => setFilterDrawer(true)}>
               <FilterIcon />
             </ButtonBase>
           </Grid>
+          <Grid item xs={12} className={classes.title}>
+            <Typography variant="h4">Courses</Typography>
+          </Grid>
+
           <Drawer variant="temporary" anchor={"right"} 
             open={filterDrawer} 
             classes={{paper: classes.drawerPaper}} 
