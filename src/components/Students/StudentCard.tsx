@@ -5,8 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { Box } from "@material-ui/core";
-import StudentImage from '../../assets/studentsIcon.png';
-import TouchRipple from "@material-ui/core/ButtonBase/TouchRipple";
+import Grad from '../../assets/grad.png';
 
 interface StudentCardProps {
   studentId: number;
@@ -28,7 +27,7 @@ function StudentCard(props: StudentCardProps) {
                     </Typography>
                 </Box>
                 <Box style={{display:'flex', justifyContent: 'center', alignItems: 'center', padding: '5px 10px 5px 10px', backgroundColor: 'lightblue', borderRadius: '50%'}}>
-                    <img style={{height: '70%'}} src={'https://img.icons8.com/color/48/000000/student-male--v1.png'} />
+                    <img style={{height: '70%'}} src={Grad} />
                 </Box>
             </Box>
         </CardContent>

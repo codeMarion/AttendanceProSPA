@@ -68,7 +68,7 @@ function FileUpload() {
         }
       }
     return (
-        <div className="upload"
+        <div className={`upload ${uploadContext.uploadedData.length === 0 ? '' : 'upload-done'}`}
           onDragOver={e => e.preventDefault()}
           onDrop={handleUpload}
         >
