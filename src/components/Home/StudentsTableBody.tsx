@@ -1,10 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Hidden, TableBody, TableCell, TableRow } from '@material-ui/core'
-import React, { useContext, useEffect, useState } from 'react'
+import { Box, TableBody, TableCell, TableRow } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import StudentController from '../../api/StudentController';
 import { AppContext } from '../../context/AppContext';
-import StudentData from '../../models/StudentData';
 
 
 interface StudentsTableBodyProps {
@@ -58,9 +57,9 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
                             <Box style={{textAlign: 'center'}}>{Math.round(item.attendancePercentage * 100)}%</Box>
                         </TableCell>
                         <TableCell>
-                            {item.attendancePercentage < appContext.riskStudentThreshold - 0.4 ?
+                            {item.attendancePercentage < ((appContext.riskStudentThreshold - 40) / 100) ?
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: 'red', borderRadius: 50}}>Critical</Box>
-                            :item.attendancePercentage < appContext.riskStudentThreshold - 0.2 ?
+                            :item.attendancePercentage < ((appContext.riskStudentThreshold - 20) / 100) ?
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF1493', borderRadius: 50}}>Very Bad</Box>
                             :
                                 <Box style={{textAlign: 'center',color: 'white',backgroundColor: '#FF4500', borderRadius: 50}}>Bad</Box>

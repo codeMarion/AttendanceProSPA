@@ -68,6 +68,7 @@
   "devDependencies": {
     "@types/blob-stream": "^0.1.30",
     "@types/dom-to-image": "^2.6.2",
+    "@types/loadable__component": "^5.13.3",
     "@types/papaparse": "^5.2.4",
     "@types/pdfkit": "^0.11.0",
     "@types/react-vertical-timeline-component": "^3.0.0"
