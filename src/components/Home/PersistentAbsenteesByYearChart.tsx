@@ -2,15 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box, ButtonBase, Typography } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, } from "recharts";
 import StudentController from "../../api/StudentController";
 import { AppContext } from "../../context/AppContext";
 
