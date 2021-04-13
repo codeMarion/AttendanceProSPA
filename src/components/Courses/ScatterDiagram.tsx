@@ -90,6 +90,17 @@ function ScatterDiagram() {
                 ]
             }
         ]}
+        tooltip={({ node }) => (
+            <div
+                style={{
+                    background: '#fff',
+                    padding: '12px 16px',
+                }}
+            >
+                <p><span style={{fontWeight: 'bold'}}>Attended: </span>{`${node.data.formattedX.toString().split(' ')[1]} sessions`}</p>
+                <p><span style={{fontWeight: 'bold'}}>Teaching: </span>{`${node.data.formattedY.toString().split(' ')[1]} sessions`}</p>
+            </div>
+        )}
     />
     )
 }

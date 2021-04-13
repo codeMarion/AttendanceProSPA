@@ -62,6 +62,16 @@ function CourseBar() {
         labelSkipHeight={12}
         labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
         label={(item) => `${item.value}%`}
+        tooltip={({ value, indexValue, color }) => (
+          <div style={{paddingTop: '5%', paddingBottom: '5%'}}>
+            <p style={{marginBottom: '2%'}}>
+                Year {indexValue}
+            </p>
+            <p style={{ color }}>
+              Attendance Statistics: {value}%
+            </p>
+          </div>
+        )}
     />
     )
 }

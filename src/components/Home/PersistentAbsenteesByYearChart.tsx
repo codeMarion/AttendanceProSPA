@@ -56,9 +56,9 @@ const PersistentAbsenteesByYearChart = () => {
             <YAxis />
             <Tooltip labelStyle={{color: 'black'}} labelFormatter={(value: number) => `Year ${value}`}/>
             <Legend />
-            <Bar dataKey={showPersistent ? 'persistentAbsenteesCount' : 'notAttendingStudents'} name={showPersistent ? "Persistent Absentees" : "Not Attending"} stackId="a" fill="#3182CE" />
+            <Bar dataKey={showPersistent ? 'persistentAbsenteesCount' : 'notAttendingStudents'} name={showPersistent ? "Persistent Absentees" : "Not Attending"} stackId="a" fill="#E53E3E" />
             {showPersistent ?
-            <Bar dataKey="attendingStudents" name={"Attending Students"} stackId="a" fill="#E53E3E" />
+            <Bar dataKey="attendingStudents" name={"Attending Students"} stackId="a" fill="#3182CE" />
             :<></>}
           </BarChart>
         </ResponsiveContainer>
