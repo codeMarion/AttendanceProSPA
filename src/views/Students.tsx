@@ -10,6 +10,7 @@ import UserController from "../api/UserController";
 import FilterIcon from "../assets/FilterIcon";
 import StudentCard from "../components/Students/StudentCard";
 import Loading from '../config/loading.json';
+import NoResults from '../config/no-results.json';
 import { AppContext } from "../context/AppContext";
 import CourseResponse from "../models/CourseResponse";
 import StudentPage from "../models/StudentPage";
@@ -38,9 +39,12 @@ const Students = () => {
   },[appContext.searchBarValue, chipData]);
   
   useEffect(() => {
-    GetCourses();
     GetStudents();
   },[currPage,chipData])
+
+  useEffect(() => {
+    GetCourses();
+  },[])
 
   const setPagesCount = async() => {
     const token = await Auth0.getAccessTokenSilently();
@@ -59,12 +63,17 @@ const Students = () => {
 
   const handleCourseFilter = (course: CourseResponse | null) => {
     if(course){
+      const newCourses = courses?.filter(
+        (c) => c.courseCode !== course.courseCode
+      );
+      setCourses(newCourses);
       setChipData(chipData => [...chipData, course]);      
       setTextInput('');
     }
   };
   
   const handleChipDelete = (course: CourseResponse) => {
+    setCourses([course,...courses]);
     setChipData(chipData.filter(c => c.courseCode !== course.courseCode));
   };
 
@@ -105,22 +114,36 @@ const Students = () => {
             </ButtonBase>
           </Grid>
           <Grid item xs={12} className={classes.title}>
-            <Typography variant="h4">Students</Typography>
+            <Typography variant="h4">{showTrackedStudents ? 'Tracked Students' : 'Students'}</Typography>
           </Grid>
           <Grid item xs={12}>
-
-              <FormGroup>
+            <FormGroup>
                 <FormControlLabel
                   label="Tracked Students"
                   control={<Switch size="small" checked={showTrackedStudents} onChange={GetTrackedStudents} />}
                 />
             </FormGroup>
           </Grid>
-          {students.map((student,i) => (
-            <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-              <StudentCard studentId={student.userId}/>
+          {students.length === 0 ?
+            <Grid xs={12}>
+              <Player
+                autoplay
+                loop
+                src={NoResults}
+                style={{ height: '300px', width: '300px' }}
+              >
+              </Player>
+              <Typography align="center">No students found</Typography>
             </Grid>
-          ))}
+          :
+            <>
+              {students.map((student,i) => (
+                <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+                  <StudentCard studentId={student.userId}/>
+                </Grid>
+              ))}
+            </>          
+          }
           {showPaginator ? 
           <Grid item xs={12} className={classes.pagination}>
             <Pagination count={pages} variant="outlined" onChange={(event, value) => setCurrPage(value)}/>
