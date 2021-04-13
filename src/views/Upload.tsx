@@ -111,6 +111,24 @@ const Upload = () => {
               >
                 {activeStep === steps.length - 1 ? "Confirm" : "Next"}
               </Button>
+              <br />
+              <br />
+              {activeStep === 0 ?
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    const link = document.createElement("a");
+                    link.download = `sample data.xlsx`;
+                    link.href = `${window.origin}/sample_data.xlsx`;
+                    link.click();
+                  }}
+                  className={classes.button}
+                >
+                  Download Sample Data
+                </Button>
+                : <></>
+              }
             </div>
           </div>
       </div>
