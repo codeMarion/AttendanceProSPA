@@ -29,7 +29,7 @@ const CoursesStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-      width: 240,
+      width: 300,
     }
   }
 ));
