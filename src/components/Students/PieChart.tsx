@@ -52,6 +52,7 @@ export default function PieChart(props: PieChartProps) {
               itemDirection: 'left-to-right'
           }
       ]}
+      valueFormat={(item) => `${item}%`}
       />
   );
 }

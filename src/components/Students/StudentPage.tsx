@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, ButtonBase, Card, Grid, Hidden, Tab, Tabs, TextField, Typography } from '@material-ui/core';
+import { Box, ButtonBase, Card, Grid, Hidden, Tab, Tabs, TextField, Tooltip, Typography } from '@material-ui/core';
 import { AddOutlined, Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, Remove, SchoolRounded } from '@material-ui/icons';
 import blobStream from 'blob-stream';
 import { useSnackbar } from 'notistack';
@@ -161,17 +161,23 @@ function StudentPage(props:any) {
                                     : 
                                     <>
                                     {appContext.trackedStudentsIds.includes(data.userId.toString()) ?
-                                        <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("REMOVE")}>
-                                            <Remove />
-                                        </ButtonBase>
+                                        <Tooltip title="Stop tracking">
+                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("REMOVE")}>
+                                                <Remove />
+                                            </ButtonBase>
+                                        </Tooltip>
                                     :
-                                        <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("ADD")}>
-                                            <AddOutlined /> 
-                                        </ButtonBase>
+                                        <Tooltip title="Start tracking">
+                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("ADD")}>
+                                                <AddOutlined /> 
+                                            </ButtonBase>
+                                        </Tooltip>
                                     }
-                                    <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
-                                        <Print />
-                                    </ButtonBase>
+                                        <Tooltip title="Print attendance report">
+                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
+                                                <Print />
+                                            </ButtonBase>
+                                        </Tooltip>
                                     </>
                                 }
                                 {data.email ? 
@@ -230,9 +236,11 @@ function StudentPage(props:any) {
                                                         <CheckCircleOutline />
                                                     </ButtonBase>
                                                 :
-                                                    <ButtonBase onClick={() => setPersonalDetailsEditMode(true)}>
-                                                        <Edit />
-                                                    </ButtonBase>
+                                                    <Tooltip title="Edit personal details">
+                                                        <ButtonBase onClick={() => setPersonalDetailsEditMode(true)}>
+                                                            <Edit />
+                                                        </ButtonBase>
+                                                    </Tooltip>
                                                 }
                                             </Box>
                                             <Grid container style={{margin: '2% 0'}}>
@@ -267,12 +275,14 @@ function StudentPage(props:any) {
                                 <Grid item xs={12} lg={6} >
                                     <Card>
                                         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-                                            <ButtonBase onClick={() => {
-                                                setGraphTitle("Attendance By Period (%)");
-                                                setBigGraph("line");
-                                            }}>
-                                                <Fullscreen />
-                                            </ButtonBase>
+                                            <Tooltip title="Fullscreen">
+                                                <ButtonBase onClick={() => {
+                                                    setGraphTitle("Attendance By Period (%)");
+                                                    setBigGraph("line");
+                                                }}>
+                                                    <Fullscreen />
+                                                </ButtonBase>
+                                            </Tooltip>
                                         </Box>
                                         <div style={{margin: '1rem'}}>
                                             <Typography style={{textAlign: 'center', marginBottom: '2%'}} variant="h5">Attendance By Period (%)</Typography>
@@ -285,12 +295,14 @@ function StudentPage(props:any) {
                                 <Grid item xs={12} lg={6} >
                                     <Card>
                                         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-                                            <ButtonBase onClick={() => {
-                                                setGraphTitle("Overall Attendance");
-                                                setBigGraph("pie")
-                                            }}>
-                                                <Fullscreen />
-                                            </ButtonBase>
+                                            <Tooltip title="Fullscreen">
+                                                <ButtonBase onClick={() => {
+                                                    setGraphTitle("Overall Attendance");
+                                                    setBigGraph("pie")
+                                                }}>
+                                                    <Fullscreen />
+                                                </ButtonBase>
+                                            </Tooltip>
                                         </Box>
                                         <div style={{margin: '1rem'}}>
                                             <Typography style={{textAlign: 'center', marginBottom: '2%'}} variant="h5">Overall Attendance</Typography>

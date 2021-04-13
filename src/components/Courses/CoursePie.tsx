@@ -51,6 +51,7 @@ function CoursePie() {
         sliceLabelsSkipAngle={10}
         sliceLabelsTextColor="#ffffff"
         sliceLabel={(item) => `${item.value}%`}
+        valueFormat={(item) => `${item}%`}
         legends={[
           {
             anchor: "bottom",

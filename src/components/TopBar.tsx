@@ -27,7 +27,7 @@ const TopBar = () => {
           <Search />
         </div>
         <InputBase
-          placeholder="Search…"
+          placeholder="Search a student..."
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

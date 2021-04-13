@@ -32,7 +32,7 @@ const StudentsStyles = makeStyles((theme: Theme) =>
       padding: '10px 10px 0 10px'
     },
     drawerPaper: {
-      width: 260,
+      width: 300,
     }
   }
 ));

@@ -84,6 +84,11 @@ function HeatMap() {
       hoverTarget="rowColumn"
       cellHoverOpacity={1}
       cellHoverOthersOpacity={0.5}
+      tooltip={({ id, value }) => (
+            <p>
+                Period {id.split('.')[0]} : {value} students
+            </p>
+        )}
     />
   );
 }
