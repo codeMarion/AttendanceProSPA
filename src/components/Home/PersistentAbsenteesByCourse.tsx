@@ -39,6 +39,8 @@ function PersistentAbsenteesByCourse() {
         sliceLabelsTextColor="#ffffff"
         colors={{ scheme: "category10" }}
         margin={{bottom:60,}}
+        sliceLabel={(item) => `${item.value}%`}
+        valueFormat={(item) => `${item}%`}
         legends={[
           {
               anchor: 'bottom',

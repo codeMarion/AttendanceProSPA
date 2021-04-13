@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, ButtonBase, Chip, Divider, Drawer, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, ButtonBase, Chip, Divider, Drawer, Grid, TextField, Tooltip, Typography } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { useContext, useEffect, useState } from "react";
 import CourseController from "../api/CourseController";
@@ -57,9 +57,11 @@ const Students = () => {
       {courses ? (
         <Grid container spacing={3}>
           <Grid item xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <Tooltip title="Filtering options">
             <ButtonBase onClick={() => setFilterDrawer(true)}>
               <FilterIcon />
             </ButtonBase>
+          </Tooltip>
           </Grid>
           <Grid item xs={12} className={classes.title}>
             <Typography variant="h4">Courses</Typography>

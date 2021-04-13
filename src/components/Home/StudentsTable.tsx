@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, ButtonBase, Table, TablePagination, Typography } from '@material-ui/core'
+import { Box, ButtonBase, Table, TablePagination, Tooltip, Typography } from '@material-ui/core'
 import StudentsTableBody from './StudentsTableBody'
 import StudentsTableHeader from './StudentsTableHeader'
 import { useAuth0 } from '@auth0/auth0-react';
@@ -37,9 +37,11 @@ function StudentsTable() {
     return (
     <>
         <Box style={{display: 'flex',justifyContent: 'flex-end', alignItems: 'flex-end'}} onClick={() => setShowPersistent(!showPersistent)}>
-            <ButtonBase>
-                <SwapHoriz/>
-            </ButtonBase>
+            <Tooltip title={showPersistent ? 'Show Not Attending Students Table' : 'Show Persistent Absentees Table'}>
+                <ButtonBase>
+                    <SwapHoriz/>
+                </ButtonBase>
+            </Tooltip>
         </Box>
         <Typography align="center" variant="h5">{showPersistent ? 'Persistent Absentees' : 'Not Attending Students'}</Typography>
         <Table className="table" >

@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Card, Grid, Typography } from "@material-ui/core";
+import { Box, ButtonBase, Card, Grid, Tooltip, Typography } from "@material-ui/core";
 import { Fullscreen } from "@material-ui/icons";
 import React, { useContext, useState } from "react";
 import { CourseContext } from "../../context/CourseContext";
@@ -43,12 +43,14 @@ function CourseVisulisations() {
       <Grid item xs={12} md={6}>
         <Card>
           <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
+            <Tooltip title="Fullscreen">
             <ButtonBase onClick={() => {
               setGraphTitle("Attendance Statistics")
               setBigGraph("pie");
               }}>
-              <Fullscreen />
+                <Fullscreen />
             </ButtonBase>
+            </Tooltip>
           </Box>
           <Typography variant="h5" align="center">Attendance Statistics</Typography>
           <div style={{ height: "19rem", width: "99%" }}>
@@ -59,12 +61,14 @@ function CourseVisulisations() {
       <Grid item xs={12} md={6}>
         <Card>
         <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
-        <ButtonBase onClick={() => {
-          setGraphTitle("Attendance Statistics By Year")
-          setBigGraph("bar")
-        }}>
-          <Fullscreen />
-        </ButtonBase>
+        <Tooltip title="Fullscreen">
+          <ButtonBase onClick={() => {
+            setGraphTitle("Attendance Statistics By Year")
+            setBigGraph("bar")
+          }}>
+            <Fullscreen />
+          </ButtonBase>
+        </Tooltip>
         </Box>
         <Typography variant="h5" align="center">Attendance Statistics By Year</Typography>
         <div style={{ height: "19rem", width: "99%" }}>
@@ -77,12 +81,14 @@ function CourseVisulisations() {
         <Grid item xs={12} md={6}>
           <Card>
           <Box style={{display: 'flex',justifyContent: 'flex-end'}}>
+          <Tooltip title="Fullscreen">
             <ButtonBase onClick={() => {
               setBigGraph("heat");
               setGraphTitle("Course Attendance By Period")
             }}>
               <Fullscreen />
             </ButtonBase>
+          </Tooltip>
           </Box>
           <Typography variant="h5" align="center">Course Attendance By Period</Typography>
           <div style={{ height: "19rem", width: "90%" }}>
@@ -97,7 +103,9 @@ function CourseVisulisations() {
             setBigGraph("scatter")
             setGraphTitle("Student Attendance Distribution");  
           }}>
-            <Fullscreen />
+            <Tooltip title="Fullscreen">
+              <Fullscreen />
+            </Tooltip>
           </ButtonBase>
           </Box>
           <Typography variant="h5" align="center">Student Attendance Distribution</Typography>
