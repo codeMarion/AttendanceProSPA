@@ -64,15 +64,16 @@ const Home = () => {
               <Select
                 style={{marginBottom: '10px'}}
                 fullWidth
+                value={appContext.riskStudentThreshold}
                 onChange={(e:any) => {
                   appContext.setRiskStudentThreshold(e.target.value);
                   appContext.setShowThresholdDialog(false)
                 }}
               >
-                <MenuItem value={90}>90%</MenuItem>
-                <MenuItem value={80}>80%</MenuItem>
-                <MenuItem value={70}>70%</MenuItem>
-                <MenuItem value={60}>60%</MenuItem>
+                <MenuItem value={90}>Up to 90%</MenuItem>
+                <MenuItem value={80}>Up to 80%</MenuItem>
+                <MenuItem value={70}>Up to 70%</MenuItem>
+                <MenuItem value={60}>Up to 60%</MenuItem>
               </Select>
 
               <Typography>Current Levels</Typography>
