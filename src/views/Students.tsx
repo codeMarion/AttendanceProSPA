@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, ButtonBase, Chip, Divider, Drawer, FormControlLabel, FormGroup, Grid, Switch, TextField, Typography } from "@material-ui/core";
+import { Box, ButtonBase, Chip, Divider, Drawer, FormControlLabel, FormGroup, Grid, Switch, TextField, Tooltip, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import Pagination from '@material-ui/lab/Pagination';
 import React, { useContext, useEffect, useState } from "react";
@@ -110,7 +110,13 @@ const Students = () => {
         <Grid container spacing={3}>
           <Grid xs={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
             <ButtonBase onClick={() => setFilterDrawer(true)}>
-                {!showTrackedStudents ? <FilterIcon /> : <></>}
+                {!showTrackedStudents ? 
+                <Tooltip title="Filtering options">
+                  <Box>
+                    <FilterIcon />
+                  </Box>
+                </Tooltip>
+                : <></>}
             </ButtonBase>
           </Grid>
           <Grid item xs={12} className={classes.title}>

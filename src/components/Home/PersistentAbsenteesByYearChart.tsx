@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, ButtonBase, Typography } from "@material-ui/core";
+import { Box, ButtonBase, Tooltip as TooltipMUI, Typography } from "@material-ui/core";
 import { SwapHoriz } from "@material-ui/icons";
 import React, { useContext, useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, } from "recharts";
@@ -35,9 +35,11 @@ const PersistentAbsenteesByYearChart = () => {
   return (
     <>
       <Box style={{display: 'flex',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-          <ButtonBase onClick={() => setShowPersistent(!showPersistent)}>
-              <SwapHoriz/>
-          </ButtonBase>
+          <TooltipMUI title={showPersistent ? 'Show Not Attending Students Table' : 'Show Persistent Absentees Table'}>
+            <ButtonBase onClick={() => setShowPersistent(!showPersistent)}>
+                <SwapHoriz/>
+            </ButtonBase>
+          </TooltipMUI>
       </Box>
       <Typography align="center" variant="h5">{showPersistent ? 'Persistent Absentees' : 'Not Attending Students'} By Year</Typography>
       <div style={{ height: "23.3rem", width: "99%" }}>
