@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, Grid, TextField, Typography } from "@material-ui/core";
 import { Person, School, Star } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
@@ -8,6 +8,8 @@ import CommunicationController from "../../api/CommunicationController";
 import { useAuth0 } from "@auth0/auth0-react";
 import Moment from "react-moment";
 import EmailReminders from '../../config/EmailReminders';
+import { Player } from "@lottiefiles/react-lottie-player";
+import NoResults from '../../config/no-results.json';
 
 interface EmailProps{
   email:string;
@@ -116,10 +118,20 @@ function Email(props: EmailProps) {
             <div dangerouslySetInnerHTML={{__html: email.fromEmail === "admin@em2322.attendancepro.co.uk" ? email.content : filterEmail(email.content)}} />
             </VerticalTimelineElement>
         ))}
+        {data.length > 0 ? 
         <VerticalTimelineElement
-          iconStyle={{ background: "rgb(16, 204, 82)", color: "#fff" }}
-          icon={<Star />}
+        iconStyle={{ background: "rgb(16, 204, 82)", color: "#fff" }}
+        icon={<Star />}
         />
+        :
+          <Player
+            autoplay
+            loop
+            src={NoResults}
+            style={{ height: '300px', width: '300px' }}
+          >
+          </Player>
+        }
       </VerticalTimeline>
       <Dialog open={openNewEmailDialog} onClose={() => setNewEmailDialog(false)} aria-labelledby="form-dialog-title" fullWidth>
         <DialogTitle id="form-dialog-title">New Email</DialogTitle>
