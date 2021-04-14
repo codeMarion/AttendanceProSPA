@@ -86,7 +86,7 @@ const Students = () => {
                     (
                       <TextField {...params} label="Courses" variant="outlined" />
                     )}
-                  inputValue={textInput}
+                  // inputValue={textInput}
                 />
               </Grid>
               <Divider />

@@ -175,7 +175,6 @@ const Students = () => {
                 (
                   <TextField {...params} label="Courses" variant="outlined" />
                 )}
-              inputValue={textInput}
             />
           </Grid>
           <Divider />
