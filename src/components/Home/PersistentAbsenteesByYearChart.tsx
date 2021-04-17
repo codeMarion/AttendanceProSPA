@@ -35,7 +35,7 @@ const PersistentAbsenteesByYearChart = () => {
   return (
     <>
       <Box style={{display: 'flex',justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-          <TooltipMUI title={showPersistent ? 'Show Not Attending Students Table' : 'Show Persistent Absentees Table'}>
+          <TooltipMUI title={showPersistent ? 'Show Not Attending Students' : 'Show Persistent Absentees'}>
             <ButtonBase onClick={() => setShowPersistent(!showPersistent)}>
                 <SwapHoriz/>
             </ButtonBase>
