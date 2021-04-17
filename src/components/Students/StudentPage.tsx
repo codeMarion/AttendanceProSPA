@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Box, ButtonBase, Card, Grid, Hidden, Tab, Tabs, TextField, Tooltip, Typography } from '@material-ui/core';
-import { AddOutlined, Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, Remove, SchoolRounded } from '@material-ui/icons';
+import { Box, Button, ButtonBase, Card, Grid, Hidden, Tab, Tabs, TextField, Tooltip, Typography } from '@material-ui/core';
+import { Bookmark, CheckCircleOutline, Edit, Fullscreen, MailOutline, PersonRounded, Phone, Print, SchoolRounded } from '@material-ui/icons';
 import blobStream from 'blob-stream';
 import { useSnackbar } from 'notistack';
 //@ts-ignore
@@ -34,6 +34,7 @@ function StudentPage(props:any) {
     const tabs = ["Profile","Communication"];
     const [personalDetailsEditMode, setPersonalDetailsEditMode] = useState(false);
     const [tab, setTab] = useState('profile');
+    const [currTabIndex, setCurrTabIndex] = useState(0);
     const [graphTitle, setGraphTitle] = useState('');
     const appContext = useContext(AppContext);
     
@@ -93,8 +94,10 @@ function StudentPage(props:any) {
         }else{
             ids = ids.filter(id => id !== data?.userId.toString());
         }
+        
         console.log(ids.join(','));
         appContext.setTrackedStudentIds(ids);
+        enqueueSnackbar(`Student tracking ${action === "ADD" ? 'started' : 'stopped'}!`, { variant: "success" });
         userController.UpdateTrackedStudents(token,ids.length > 0 ? ids.join(','): "CLEAR");
     }
 
@@ -156,42 +159,44 @@ function StudentPage(props:any) {
                                 </Grid>
                             </Grid>
                             <Grid container xs={12}>
-                                {tab === "Communication" ? 
-                                    <></> 
-                                    : 
-                                    <>
+                                <>
+                                    <Tooltip title="Print attendance report">
+                                        <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
+                                            <Print />
+                                        </ButtonBase>
+                                    </Tooltip>
                                     {appContext.trackedStudentsIds.includes(data.userId.toString()) ?
                                         <Tooltip title="Stop tracking">
-                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("REMOVE")}>
-                                                <Remove />
-                                            </ButtonBase>
+                                            <Button variant="outlined" style={{margin: '10px 10px 10px 10px'}} onClick={() => updateTrackedStudents("REMOVE")}>
+                                                Stop Tracking
+                                            </Button>
                                         </Tooltip>
                                     :
                                         <Tooltip title="Start tracking">
-                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={() => updateTrackedStudents("ADD")}>
-                                                <AddOutlined /> 
-                                            </ButtonBase>
+                                            <Button variant="outlined" style={{margin: '10px 10px 10px 10px'}} onClick={() => updateTrackedStudents("ADD")}>
+                                                Track
+                                            </Button>
                                         </Tooltip>
                                     }
-                                        <Tooltip title="Print attendance report">
-                                            <ButtonBase style={{paddingTop: 10, paddingBottom: 10}} onClick={printPDF}>
-                                                <Print />
-                                            </ButtonBase>
-                                        </Tooltip>
-                                    </>
-                                }
+                                </>
                                 {data.email ? 
                                     <Tabs
-                                        onChange={(event, value) => setTab(tabs[value])}
+                                        onChange={(event, value) => {
+                                            setTab(tabs[value])
+                                            setCurrTabIndex(value)
+                                        }}
                                         indicatorColor='primary'
                                         textColor='primary'
                                         variant='scrollable'
                                         scrollButtons='auto'
                                         aria-label='scrollable auto tabs example'
+                                        value={currTabIndex}
+                                        style={{height: '1rem'}}
                                             >
                                         {tabs.map((tab, index) => {
                                         return (
                                             <Tab
+                                                style={{minWidth: "auto"}}
                                                 key={index}
                                                 label={tab}
                                             />
@@ -227,20 +232,14 @@ function StudentPage(props:any) {
                                         <Box style={{margin: '1rem'}}>
                                             <Box style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Typography variant="subtitle1">Contact Details:</Typography>
-                                                {personalDetailsEditMode ? 
-                                                    <ButtonBase onClick={async () => {
-                                                        const token = await Auth0.getAccessTokenSilently();
-                                                        controller.UpdateStudent(data.userId,data.email,data.phone,token);
-                                                        setPersonalDetailsEditMode(false);
-                                                    }}>
-                                                        <CheckCircleOutline />
-                                                    </ButtonBase>
-                                                :
+                                                {!personalDetailsEditMode ? 
                                                     <Tooltip title="Edit personal details">
-                                                        <ButtonBase onClick={() => setPersonalDetailsEditMode(true)}>
+                                                        <ButtonBase onClick={() => setPersonalDetailsEditMode(true)} >
                                                             <Edit />
                                                         </ButtonBase>
                                                     </Tooltip>
+                                                :
+                                                    <></>
                                                 }
                                             </Box>
                                             <Grid container style={{margin: '2% 0'}}>
@@ -267,6 +266,16 @@ function StudentPage(props:any) {
                                                     <Typography style={{marginLeft: '1%'}} variant="body2">{data.phone}</Typography>
                                                 }
                                             </Grid>
+                                            {personalDetailsEditMode ? 
+                                            <Box style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                <ButtonBase onClick={async () => {
+                                                    const token = await Auth0.getAccessTokenSilently();
+                                                    controller.UpdateStudent(data.userId,data.email,data.phone,token);
+                                                    setPersonalDetailsEditMode(false);
+                                                }}>
+                                                        <CheckCircleOutline style={{fill: "green"}}/>
+                                                </ButtonBase>
+                                            </Box> : <></> }
                                         </Box>
                                     </Card>
                                 </Grid>

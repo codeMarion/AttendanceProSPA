@@ -50,6 +50,7 @@ const Students = () => {
     let newCourses = [...courses!];
     newCourses = courseArr.concat(newCourses);
     setCourses(newCourses);
+    setTextInput("");
   };
 
   return (
@@ -82,11 +83,16 @@ const Students = () => {
                   getOptionLabel={(course) => course.courseTitle}
                   className={classes.autoComplete}
                   onChange={(event, value, reason) => handleCourseFilter(value ?? null)}
+                  onInputChange={(event, value, reason) => {
+                    if(reason === "input"){
+                      setTextInput(value)
+                    }
+                  }}
                   renderInput={(params) => 
                     (
                       <TextField {...params} label="Courses" variant="outlined" />
                     )}
-                  // inputValue={textInput}
+                  inputValue={textInput}
                 />
               </Grid>
               <Divider />
