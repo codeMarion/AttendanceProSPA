@@ -29,7 +29,7 @@ const Login = () => {
         <div className="logo">
           <img src={Logo} alt="school" />
         </div>
-        <div className="info">
+        <div className="infoformation">
           <h1 className="title">
             <span style={{ color: "#39B6FF" }}>Attendance</span>
             <span style={{ color: "white" }}>Pro</span>

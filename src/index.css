@@ -51,12 +51,12 @@ code {
   z-index: 2;
   transition: all 0.75s ease-out;
 }
-.info {
+.infoformation {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.info h1 {
+.infoformation h1 {
   font-size: 3rem;
   transition: all 0.75s ease-out;
 }
