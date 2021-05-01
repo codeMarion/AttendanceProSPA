@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Routes from "../config/Routes";
 import LayoutStyles from "../styles/LayoutStyles";
+import Documentation from "./Documentation";
 import Drawer from "./Drawer";
 import Profile from "./Profile";
 import StudentPage from "./Students/StudentPage";
