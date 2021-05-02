@@ -4,14 +4,17 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import StudentController from '../../api/StudentController';
 
 const AbsenceStartGraph = () => {
-
+  //States and contexts
   const Auth0 = useAuth0();
   const controller = new StudentController();
   const [data, setData] = useState([]);
+  
+  //This lifecycle hook is triggered on the first load
   useEffect(() =>{
     fetchData();
   },[])
 
+  //This function is responsible for retrieving the chart information from the backend
   async function fetchData(){
     const token = await Auth0.getAccessTokenSilently();
     const response = await controller.GetAbsenceStartingData(token);
@@ -20,6 +23,7 @@ const AbsenceStartGraph = () => {
     })
     setData(newResponse);
   }
+  
   return (
     <div style={{ height: "19rem", width: "99%" }}>
     <ResponsiveContainer width="99%" height="99%">

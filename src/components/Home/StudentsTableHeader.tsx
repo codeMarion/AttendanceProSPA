@@ -1,6 +1,9 @@
 import { TableCell, TableHead, TableRow } from '@material-ui/core'
 import React from 'react'
 
+/*
+    This component is used as a table header for the rendered table(persitent absentees and not attending students)
+*/
 function StudentsTableHeader() {
     return (
         <TableHead>

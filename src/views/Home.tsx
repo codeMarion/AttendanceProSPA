@@ -13,7 +13,7 @@ import Loading from '../config/loading.json';
 import { AppContext } from "../context/AppContext";
 
 const Home = () => {
-
+  //States and contexts
   const Auth0 = useAuth0();
   const studentController = new StudentController();
   const [studentCount, setStudentCount] = useState<number>();
@@ -21,6 +21,8 @@ const Home = () => {
   const [averageAttendance, setAverageAttendance] = useState<number>();
   const [notAttendingStudents, setNotAttendingStudents] = useState<number>();
   const appContext = useContext(AppContext);
+  
+  //This lifecycle hook is triggered when the student risk level threshold is changed in the context
   useEffect(() => {
     getSmallCardData();
     getPersistentStudentsCount();
@@ -28,24 +30,28 @@ const Home = () => {
     getNotAttendingStudentsCount();
   },[appContext.riskStudentThreshold]);
 
+  //This function makes a HTTP request to retrieve the number of students through the controller and response is stored in the relevant state. 
   const getSmallCardData = async() => {
     const token = await Auth0.getAccessTokenSilently();
     const response = await studentController.GetStudentCount("",[],token);
     setStudentCount(response);
   }
 
+  //This function makes a HTTP request to retrieve the number of persistent absentees through the controller and response is stored in the relevant state. 
   async function getPersistentStudentsCount(){
     const token = await Auth0.getAccessTokenSilently();
     const count = await studentController.GetPersistentStudentsCount(token, appContext.riskStudentThreshold);
     setPersistentAbsenteesCount(count);
   }
 
+  //This function makes a HTTP request to retrieve the average attendance through the controller and response is stored in the relevant state. 
   async function getAverageAttendance(){
     const token = await Auth0.getAccessTokenSilently();
     const response = await studentController.GetAverageAttendance(token);
     setAverageAttendance(Math.ceil((response.attended/response.sessions)*100));
   }
 
+  //This function makes a HTTP request to retrieve the number of not attending students through the controller and response is stored in the relevant state.
   async function getNotAttendingStudentsCount(){
     const token = await Auth0.getAccessTokenSilently();
     const response = await studentController.GetNotAttendingStudentsCount(token);
@@ -54,6 +60,7 @@ const Home = () => {
 
   return (
     <>
+      {/* Dialog box to edit the risk levels that are currently being used. */}
       {appContext.showThresholdDialog ? 
             <Dialog open={appContext.showThresholdDialog} onClose={() => appContext.setShowThresholdDialog(false)} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Risk Student Levels</DialogTitle>
@@ -84,6 +91,7 @@ const Home = () => {
           </Dialog>
       :
       <></>}
+      {/* The home page rendering once data is retrieved from the backend */}
       {studentCount && averageAttendance && persistentAbsenteesCount && notAttendingStudents ?
           <>
           <Grid container spacing={3}>
@@ -152,7 +160,8 @@ const Home = () => {
               </Card>
             </Grid>
           </Grid>
-        </>:        
+        </>:     
+          //  Loading animation
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
           <Player
             autoplay

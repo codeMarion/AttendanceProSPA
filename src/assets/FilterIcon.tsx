@@ -1,6 +1,7 @@
 import { SvgIcon } from '@material-ui/core'
 import React from 'react'
 
+// This is an Svg Icon component that was created to make the code more readable. 
 function FilterIcon() {
     return (
         <SvgIcon fontSize="large">

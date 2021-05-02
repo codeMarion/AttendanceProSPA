@@ -3,6 +3,9 @@ import OpenApiDocumentation from '../config/OpenApiDocumentation'
 import SwaggerUI from "swagger-ui-react"
 import "swagger-ui-react/swagger-ui.css"
 
+/*
+  This components is responsible of rendering the REST API documentation component
+*/
 function Documentation() {
     return (
     <div>

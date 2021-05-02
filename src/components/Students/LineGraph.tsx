@@ -3,19 +3,23 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import LineGraphModel from "../../models/LineGraphModel";
 import StudentData from "../../models/StudentData";
 
+//Typescript model for props
 interface LineGraphProps {
     data: StudentData[]
 }
 
 export default function LineGraph(props: LineGraphProps) {
+    //The chart state
     const [val, setVal] = useState<LineGraphModel[]>([]);
 
+    //This lifecycle hook is triggered on first load
     useEffect(() => {
         props.data.map((item,i) => {
             setVal(val => [...val, {name:(i + 1).toString(),attended:Math.ceil(item.attendancePercentage * 100)}])
         })
     },[])
-  return (
+  
+    return (
     <ResponsiveContainer width="99%" height="99%">
     <AreaChart
       data={val}

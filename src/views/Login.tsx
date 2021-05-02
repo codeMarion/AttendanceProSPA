@@ -3,13 +3,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Logo from "../assets/school.svg";
 import { useSpring, animated } from "react-spring";
 import { Button } from "@material-ui/core";
-
+/*
+  This is the login component that creates a 3D illusion for the loginpage with the use of transform in javascript.
+*/
 const Login = () => {
   const calc = (x: number, y: number) => [
     -(y - window.innerHeight / 2) / 20,
     (x - window.innerWidth / 2) / 20,
     1.1,
   ];
+  //Transform based on mouse movement
   const trans = (x: number, y: number, s: number) =>
     `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
   const Auth0 = useAuth0();

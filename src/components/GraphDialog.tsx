@@ -1,6 +1,7 @@
 import { Box, Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import React from 'react';
 
+//Typescript props model
 interface GraphDialogProps {
     open: boolean,
     closeDialog: Function,
@@ -8,6 +9,7 @@ interface GraphDialogProps {
     title: string
 }
 
+//Reusable component for visualisations
 const GraphDialog = (props: GraphDialogProps) => {
     return (
     <Dialog open={props.open} onClose={() => props.closeDialog()} aria-labelledby="form-dialog-title" fullWidth>

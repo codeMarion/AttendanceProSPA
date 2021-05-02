@@ -1,6 +1,10 @@
 import AuthConfig from "../config/AuthConfig";
 import Email from "../models/Email";
 
+/*
+    This controller contains functions that fetches information from the Communication controller of the REST API. 
+    The controller makes the other parts of the code more readable.
+*/
 export default class CommunicationController 
 {
     public async GetConversations(accessToken: string, email:string) {

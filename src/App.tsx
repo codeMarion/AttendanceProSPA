@@ -10,7 +10,10 @@ import { SnackbarProvider } from "notistack";
 import { AppContextProvider } from "./context/AppContext";
 import { CourseContextProvider } from "./context/CourseContext";
 import Documentation from "./components/Documentation";
-
+/*
+  This components is used to pass the appropriate contexts created for state management.
+  The component is checking whether a user has been authenticated.
+*/
 function App() {
   const Auth0 = useAuth0();
   return (

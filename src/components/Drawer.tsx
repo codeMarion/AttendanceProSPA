@@ -6,9 +6,11 @@ import Routes from "../config/Routes";
 import LayoutStyles from "../styles/LayoutStyles";
 
 function Drawer() {
+  //Material UI configuration objects
   const theme = useTheme();
   const classes = LayoutStyles();
   const history = useHistory();
+
   return (
     <div>
       <div className={`${classes.toolbar} ${classes.logoSection}`} onClick={() => history.push('/')}>

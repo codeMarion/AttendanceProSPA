@@ -4,6 +4,7 @@ import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 import FileUploadStyles from '../styles/FileUploadStyles';
 
+//The data table rendering the uploaded spreadsheet with properties
 const columns = [
   { field: 'userId', headerName: 'User', width: 120},
   { field: 'studyLevel', headerName: 'Level of Study', width: 150 },
@@ -20,9 +21,12 @@ const columns = [
 ];
 
 export default function UploadedDataCheck() {
+  //States and contexts
   const classes = FileUploadStyles();
   const [rows, setRows] = useState<UploadModel[]>([])
   const uploadContext = useContext(UploadContext);
+
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
       const newRows = uploadContext.uploadedData.map((row,i) => {
           return { 

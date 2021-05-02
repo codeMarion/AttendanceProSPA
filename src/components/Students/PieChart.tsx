@@ -3,14 +3,17 @@ import percentRound from "percent-round";
 import React, { useEffect, useState } from "react";
 import StudentData from "../../models/StudentData";
 
+//TypeScript model for props
 interface PieChartProps {
   data: StudentData[]
 }
 
 export default function PieChart(props: PieChartProps) {
+  //States for the component
   const [data, setData] = useState<any>([]);
   const colors : any = { 'Non-Attended': 'rgb(228, 26, 28)', 'Explained': 'rgb(31, 119, 180)', 'Attended': 'rgb(44, 160, 44)' }
 
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     const dataValues = [0,0,0,0]
     props.data.map(item => {

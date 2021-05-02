@@ -7,12 +7,16 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import { Box } from "@material-ui/core";
 import Grad from '../../assets/grad.png';
 
+//TypeScript model for the props of the component
 interface StudentCardProps {
   studentId: number;
 }
 
+
 function StudentCard(props: StudentCardProps) {
+  //history objects to manage the page stack
   const history = useHistory();
+  
   return (
     <ButtonBase style={{width: '100%'}}>
       <Card onClick={() => history.push(`students/${props.studentId}`)} style={{width: '100%'}}>

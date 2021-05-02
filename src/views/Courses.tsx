@@ -11,7 +11,12 @@ import { CourseContext } from "../context/CourseContext";
 import CourseResponse from "../models/CourseResponse";
 import CoursesStyles from "../styles/CoursesStyles";
 
+
+/*
+  This component is used as a root component for the courses page.
+*/
 const Students = () => {
+  //States and contexts
   const classes = CoursesStyles();
   const Auth0 = useAuth0();
   const coursesContext = useContext(CourseContext);
@@ -20,15 +25,18 @@ const Students = () => {
   const [textInput, setTextInput] = useState('');
   const [courses, setCourses] = useState<CourseResponse[]>();
 
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     GetCourses();
   }, []);
 
+  //This function makes a HTTP request to retrieve courses information through the controller and response is stored in the relevant state. 
   const GetCourses = async () => {
     const token = await Auth0.getAccessTokenSilently();
     setCourses(await controller.GetAllCourses(token));
   };
 
+  //This function is triggered when course filters are updated to change the courses that are displayed to the user
   const handleCourseFilter = (course: CourseResponse | null) => {
     if (course) {
       const newCourses = courses?.filter(
@@ -42,6 +50,7 @@ const Students = () => {
     }
   };
 
+  //This function is triggered when a user tries to remove a course from the filter.
   const handleChipDelete = (course: CourseResponse) => {
     let chipData = [...coursesContext.selectedCourses]
     chipData = chipData.filter(c => c.courseCode !== course.courseCode)
@@ -106,6 +115,7 @@ const Students = () => {
           <CourseVisulisations/>
         </Grid>
       ) : (
+        // Loading animation
         <div className={classes.loading} color="secondary">
           <Player
             autoplay

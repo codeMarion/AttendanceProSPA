@@ -12,6 +12,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import Animation from '../config/upload_logo.json';
 import CommunicationController from "../api/CommunicationController";
 
+//This function retrieves the titles for the stepper based on the current progress of a user.
 function getStepContent(step: number) {
   switch (step) {
     case 0:
@@ -22,11 +23,14 @@ function getStepContent(step: number) {
       return "Unknown step";
   }
 }
+
+//This function returns the step names
 function getSteps() {
   return ["Upload your data", "Check the data"];
 }
 
 const Upload = () => {
+  //States and contexts
   const history = useHistory();
   const uploadContext = useContext(UploadContext)
   const classes = StepperStyles();
@@ -38,14 +42,17 @@ const Upload = () => {
   const Auth0 = useAuth0();
   const [accessToken, setAccessToken] = useState("");
 
+  //This lifecycle hook is triggered when the Auth0 object value changes
   useEffect(() => {
     Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
   },[Auth0])
 
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     uploadContext.setUploadedData([]);
   },[])
   
+  //This function is used to handle the the stepper and provide snackbar messages
   const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     if(activeStep === 1){
@@ -64,6 +71,7 @@ const Upload = () => {
     }
   };
 
+  //This function allows a user to go back to the previous step.
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -132,6 +140,7 @@ const Upload = () => {
             </div>
           </div>
       </div>
+      {/* Upload animation */}
       <Player
         autoplay
         loop

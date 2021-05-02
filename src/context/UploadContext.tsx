@@ -1,6 +1,7 @@
 import React, {createContext, useState} from 'react';
 import UploadModel from '../models/UploadModel';
 
+//Context creation with default value
 export const UploadContext = createContext({
     uploadedData: [{
         id: 0,
@@ -21,6 +22,7 @@ export const UploadContext = createContext({
     setUploadedData: (e:UploadModel[]) => {}
 });
 
+//The provider for the context with handling of data management
 export const UploadContextProvider : React.FC = ({children}) => {
 
     const [uploadedData, setUploadedData] = useState<UploadModel[]>([]);

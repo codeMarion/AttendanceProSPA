@@ -5,21 +5,20 @@ import { useHistory } from 'react-router-dom';
 import StudentController from '../../api/StudentController';
 import { AppContext } from '../../context/AppContext';
 
-
+//TypeScript model for props of this component
 interface StudentsTableBodyProps {
     page: number;
     persistentView: boolean;
 }
 
-
-
 function StudentsTableBody(props: StudentsTableBodyProps) {
-
+    //States and contexts
     const Auth0 = useAuth0();
     const controller = new StudentController();
     const history = useHistory();
     const [data, setData] = useState<any[]>([]);
     const appContext = useContext(AppContext);
+    //This lifecycle hook is triggered when the risk levels are updated, persistent state is changed or page is changed
     useEffect(() => {
         if(props.persistentView){
             GetPersistentStudents();
@@ -28,12 +27,14 @@ function StudentsTableBody(props: StudentsTableBodyProps) {
         }
     },[props.page, props.persistentView,appContext.riskStudentThreshold])
 
+    //This function retrieves persitent absentees from the backend 
     async function GetPersistentStudents(){
         const token = await Auth0.getAccessTokenSilently();
         const dbData = await controller.GetPersistentStudentsData(token, props.page + 1, appContext.riskStudentThreshold);
         setData(dbData);
     }
 
+    //This function retrieves not attending students from the backend 
     async function GetNotAttendingStudents(){
         const token = await Auth0.getAccessTokenSilently();
         const dbData = await controller.NonAttendingStudents(token, props.page + 1);
