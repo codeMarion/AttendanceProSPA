@@ -17,6 +17,7 @@ import StudentPage from "../models/StudentPage";
 import StudentsStyles from "../styles/StudentsStyles";
 
 const Students = () => {
+  //States and contexts
   const classes = StudentsStyles();
   const Auth0 = useAuth0();
   const [pages, setPages] = useState(0);
@@ -34,33 +35,40 @@ const Students = () => {
   const appContext = useContext(AppContext);
   
 
+  //This lifecycle hook is triggered when course filters have been updated or the contents of the global search bar have been changed.
   useEffect(() => {
     setPagesCount().then(() => GetStudents());
   },[appContext.searchBarValue, chipData]);
   
+  //This lifecycle hook is triggered when the page is changed or course filters have been updated.
   useEffect(() => {
     GetStudents();
   },[currPage,chipData])
 
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     GetCourses();
   },[])
 
+  //This function makes a HTTP request to retrieve the number of students through the controller and response is stored in the relevant state. 
   const setPagesCount = async() => {
     const token = await Auth0.getAccessTokenSilently();
     setPages(Math.ceil(await controller.GetStudentCount(appContext.searchBarValue, chipData, token)/12))
   }
   
+  //This function makes a HTTP request to retrieve the students data of a specific page through the controller and response is stored in the relevant state. 
   const GetStudents = async() => {
     const token = await Auth0.getAccessTokenSilently();
     setStudents(await controller.GetStudentsPage(currPage, appContext.searchBarValue, chipData, token));
   }
 
+  //This function makes a HTTP request to retrieve the courses through the controller and response is stored in the relevant state. 
   const GetCourses = async () => {
     const token = await Auth0.getAccessTokenSilently();
     setCourses(await courseController.GetAllCourses(token));
   };
 
+  //This function is triggered when course filters are updated to change the courses that are displayed to the user
   const handleCourseFilter = (course: CourseResponse | null) => {
     if(course){
       const newCourses = courses?.filter(
@@ -72,11 +80,13 @@ const Students = () => {
     }
   };
   
+  //This function is triggered when a user tries to remove a course from the filter.
   const handleChipDelete = (course: CourseResponse) => {
     setCourses([course,...courses]);
     setChipData(chipData.filter(c => c.courseCode !== course.courseCode));
   };
 
+  //This function makes a request to retrieve the students that the logged in user is tracking and the response is stored in the relevant state. 
   const GetTrackedStudents = async() => {
     const status = showTrackedStudents;
     setShowTrackedStudents(!showTrackedStudents);
@@ -193,6 +203,7 @@ const Students = () => {
       </Drawer>
       </>
     :
+      // Loading animation 
       <div className={classes.loading} color="secondary">
           <Player
             autoplay

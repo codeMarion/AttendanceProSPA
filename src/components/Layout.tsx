@@ -5,21 +5,24 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Routes from "../config/Routes";
 import LayoutStyles from "../styles/LayoutStyles";
-import Documentation from "./Documentation";
 import Drawer from "./Drawer";
 import Profile from "./Profile";
 import StudentPage from "./Students/StudentPage";
 import TopBar from "./TopBar";
 
 const Layout = () => {
+  
+  //States and contexts
   const Auth0 = useAuth0();
   const [mobileOpen, setMobileOpen] = useState(false);
   const classes = LayoutStyles();
 
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
   },[])
 
+  //This function is used to toggle the navigation tab when on mobile view.
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -67,13 +70,13 @@ const Layout = () => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Profile />
+          {/* The routing of different pages */}
           {Routes.map((tab, i) => (
             <Route key={i} exact path={tab.path} component={tab.component} />
             ))}
           <Route exact path={"/students/:student"} component={StudentPage} />
         </main>
       </Router>
-
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, {createContext, useState} from 'react';
 
+//Context creation with default value
 export const AppContext = createContext({
     searchBarValue:"",
     trackedStudentsIds: [""],
@@ -11,6 +12,7 @@ export const AppContext = createContext({
     setShowThresholdDialog : (val: boolean) => {},
 });
 
+//The provider for the context with handling of data management
 export const AppContextProvider : React.FC = ({children}) => {
 
     const [searchBarValue, setSearchBarValue] = useState("");

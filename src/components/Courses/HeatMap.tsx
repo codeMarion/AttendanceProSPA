@@ -5,15 +5,18 @@ import CourseController from "../../api/CourseController";
 import { CourseContext } from "../../context/CourseContext";
 
 function HeatMap() {
+  //States and contexts
   const Auth0 = useAuth0();
   const controller = new CourseController();
   const coursesContext = useContext(CourseContext);
   const [chartData, setChartData] = useState<any>([]);
 
+  //This lifecycle hook is triggered when the selectedCourses is updated in the context
   useEffect(() => {
     GetChartData();
   }, [coursesContext.selectedCourses]);
 
+  //This function is responsible for retrieving the chart information from the backend
   async function GetChartData() {
     const token = await Auth0.getAccessTokenSilently();
     const res: {
@@ -34,6 +37,7 @@ function HeatMap() {
     setChartData(newData);
   }
 
+  //The heatmap keys retrieved from the state
   function getHeatMapKeys(): string[] {
     const keys: string[] = [];
     if (chartData.length > 0) {

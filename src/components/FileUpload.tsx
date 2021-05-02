@@ -7,6 +7,7 @@ import { UploadContext } from '../context/UploadContext';
 import UploadModel from '../models/UploadModel';
 import "../styles/FileUpload.css";
 
+//Headers for the data columns that are fetched from the uploaded spreadsheet 
 const dataHeaders = [
   "userId",
   "studyLevel",
@@ -23,12 +24,13 @@ const dataHeaders = [
   "lastAttendance"
 ];
 
-
+//This function is responsible for data uploading
 function FileUpload() {
     const uploadContext = useContext(UploadContext)
     async function handleUpload(e: React.DragEvent){
         e.preventDefault();
         const file = await e.dataTransfer.files[0];
+        //CSV file parsing
         if(file.name.split('.')[1] === 'csv'){
           let csv = await file.text();
           let csvRows = csv.split("\n");
@@ -55,6 +57,7 @@ function FileUpload() {
             return newRow;
           });
           uploadContext.setUploadedData(parsedData)
+          //XLS or XLSX file parsing
         } else if(file.name.split('.')[1] === 'xls' || file.name.split('.')[1] === 'xlsx'){
           const reader = new FileReader();
           reader.onload = e => {
@@ -77,7 +80,5 @@ function FileUpload() {
         </div>
     )
 }
-
-
 
 export default FileUpload

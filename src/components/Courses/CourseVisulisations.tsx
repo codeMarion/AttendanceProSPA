@@ -9,6 +9,7 @@ import HeatMap from "./HeatMap";
 import ScatterDiagram from "./ScatterDiagram";
 
 function CourseVisulisations() {
+  //States and contexts
   const coursesContext = useContext(CourseContext);
   const [bigGraph, setBigGraph] = useState("");
   const [graphTitle, setGraphTitle] = useState("")

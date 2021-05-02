@@ -2,6 +2,10 @@ import AuthConfig from "../config/AuthConfig";
 import CourseResponse from "../models/CourseResponse";
 import StudentPage from "../models/StudentPage";
 
+/*
+    This controller contains functions that fetches information from the Student controller of the REST API. 
+    The controller makes the other parts of the code more readable.
+*/
 export default class StudentController 
 {
     public async GetStudentCount(searchTerm: string, chipData: CourseResponse[], accessToken: string) : Promise<number> {

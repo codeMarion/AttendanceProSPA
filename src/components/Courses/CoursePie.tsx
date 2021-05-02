@@ -8,6 +8,7 @@ import AbsenceReasonsResponse from '../../models/AbsenceReasonsResponse';
 import PieProps from '../../models/PieProps';
 
 function CoursePie() {
+    //States and contexts
     const Auth0 = useAuth0();
     const controller = new CourseController();
     const coursesContext = useContext(CourseContext)
@@ -18,10 +19,12 @@ function CoursePie() {
     ])
     const colors : any = { 'Non-Attended': 'rgb(228, 26, 28)', 'Explained': 'rgb(31, 119, 180)', 'Attended': 'rgb(44, 160, 44)' }
 
+    //This lifecycle hook is triggered when the selectedCourses is updated in the context
     useEffect(() => {
       getChartData();
     },[coursesContext.selectedCourses])
-
+    
+    //This function is responsible for retrieving the chart information from the backend
     async function getChartData(){
       const token = await Auth0.getAccessTokenSilently();
       const res: AbsenceReasonsResponse = await controller.GetAbsenceData(

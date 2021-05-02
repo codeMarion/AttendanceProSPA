@@ -1,6 +1,10 @@
 import AuthConfig from "../config/AuthConfig";
 import UserModel from "../models/UserModel";
 
+/*
+    This controller contains functions that fetches information from the User controller of the REST API. 
+    The controller makes the other parts of the code more readable.
+*/
 export default class UserController 
 {
     public async updateUser(accessToken: string, body: UserModel){

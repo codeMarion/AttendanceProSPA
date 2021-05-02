@@ -11,12 +11,14 @@ import EmailReminders from '../../config/EmailReminders';
 import { Player } from "@lottiefiles/react-lottie-player";
 import NoResults from '../../config/no-results.json';
 
+//TypeScript Model for props
 interface EmailProps{
   email:string;
   name: number;
 }
 
 function Email(props: EmailProps) {
+  //States and contexts
   const Auth0 = useAuth0();
   const { enqueueSnackbar } = useSnackbar();
   const [openNewEmailDialog, setNewEmailDialog] = useState(false);
@@ -27,18 +29,20 @@ function Email(props: EmailProps) {
 
 
   
-
+  //This lifecycle hook is triggered on first load
   useEffect(() => {
     GetEmails();
     console.log(Auth0.user)
   },[]);
 
+  //This function will retrieve the emails stored about that student in the blob storage
   async function GetEmails(){
     const token = await Auth0.getAccessTokenSilently();
     let res = await controller.GetConversations(token,props.email);
     setData(res.reverse());
   }
 
+  //This function is used to send an email to a student
   async function sendEmail(){
     const token = await Auth0.getAccessTokenSilently();
     const res = await controller.SendEmail(token,{
@@ -59,6 +63,7 @@ function Email(props: EmailProps) {
     setNewEmailDialog(false);
   }
 
+  //This function filters emails based on the escape characthers
   function filterEmail(email:string){
     let cleanEmailArr = email.replace(/\n/g, "<br />").split("<br />");
     let index = 0;

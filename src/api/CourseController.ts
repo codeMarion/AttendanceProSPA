@@ -1,5 +1,9 @@
 import AuthConfig from "../config/AuthConfig";
 
+/*
+    This controller contains functions that fetches information from the Course controller of the REST API. 
+    The controller makes the other parts of the code more readable.
+*/
 export default class StudentController 
 {
     public async GetAllCourses(accessToken: string) {

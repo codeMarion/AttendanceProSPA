@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Typography } from '@material-ui/core'
 import React from 'react'
 
+//TypeScript model for the component props
 interface SmallInfoProps {
     title: string;
     data: string;

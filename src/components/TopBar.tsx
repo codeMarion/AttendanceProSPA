@@ -8,6 +8,7 @@ import { AppContext } from "../context/AppContext";
 import { UserContext } from "../context/UserContext";
 import TopBarStyles from "../styles/TopBarStyles";
 const TopBar = () => {
+  //States and contexts
   const Auth0 = useAuth0();
   const history = useHistory();
   const classes = TopBarStyles();
@@ -15,6 +16,7 @@ const TopBar = () => {
   const userContext = useContext(UserContext)
   const appContext = useContext(AppContext);
 
+  //This is function is responsible for logging out the user from the application
   const logout = () => {
     setAnchorEl(null);
     Auth0.logout();

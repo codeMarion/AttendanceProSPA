@@ -11,10 +11,12 @@ import UserController from '../api/UserController';
 import { UserContext } from '../context/UserContext';
 
 export default function FormDialog() {
+    //States and contexts
     const userController = new UserController();
     const userContext = useContext(UserContext);
     const Auth0 = useAuth0();
     const [user, setUser] = useState({name: Auth0.user.name, email: Auth0.user.email})
+
     return (
     <div>
       <Dialog open={userContext.profileUpdate} onClose={() => userContext.setProfileUpdate(false)} aria-labelledby="form-dialog-title">
@@ -46,14 +48,14 @@ export default function FormDialog() {
           />
           : <></> }
           </DialogContent>
-        <DialogActions style={{display: 'flex',justifyContent: 'flex-start', paddingLeft: '20px'}}>
-          <Button onClick={async () => {
-              userController.updateUser(await Auth0.getAccessTokenSilently(),user);
-              userContext.setProfileUpdate(false);
-          }} variant="outlined" color="primary">
-            Save Changes
-          </Button>
-        </DialogActions>
+          <DialogActions style={{display: 'flex',justifyContent: 'flex-start', paddingLeft: '20px'}}>
+            <Button onClick={async () => {
+                userController.updateUser(await Auth0.getAccessTokenSilently(),user);
+                userContext.setProfileUpdate(false);
+            }} variant="outlined" color="primary">
+              Save Changes
+            </Button>
+          </DialogActions>
       </Dialog>
     </div>
   );

@@ -5,15 +5,17 @@ import StudentController from '../../api/StudentController';
 import { AppContext } from '../../context/AppContext';
 
 function PersistentAbsenteesByCourse() {
-
+    //States and contexts
     const Auth0 = useAuth0();
     const controller = new StudentController();
     const [data, setData] = useState([]);
     const appContext = useContext(AppContext);
+    //This lifecycle hook is triggered when the risk levels are updated
     useEffect(() => {
       fetchData();
     },[appContext.riskStudentThreshold])
 
+    //This function is responsible for retrieving the chart information from the backend
     async function fetchData(){
       const token = await Auth0.getAccessTokenSilently();
       const response = await controller.GetPersistentAbsenteesByCourse(token,appContext.riskStudentThreshold);

@@ -7,16 +7,19 @@ import AbsenceReasonsResponse from '../../models/AbsenceReasonsResponse';
 import BarProps from '../../models/BarProps';
 
 function CourseBar() {
+    //States and contexts
     const Auth0 = useAuth0();
     const controller = new CourseController();
     const coursesContext = useContext(CourseContext)
     const [chartData, setChartData] = useState<BarProps[]>([]);
 
+    //This lifecycle hook is triggered when the selectedCourses is updated in the context
     useEffect(() => {
       getChartData();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[coursesContext.selectedCourses])
     
+    //This function is responsible for retrieving the chart information from the backend
     async function getChartData(){
       const token = await Auth0.getAccessTokenSilently();
       const res: AbsenceReasonsResponse = await controller.GetAbsenceData(
@@ -29,6 +32,7 @@ function CourseBar() {
       });
       setChartData(newBarData)
     }
+    
     return (
         <ResponsiveBarCanvas
         data={chartData}

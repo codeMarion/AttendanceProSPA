@@ -7,11 +7,13 @@ import StudentController from "../../api/StudentController";
 import { AppContext } from "../../context/AppContext";
 
 const PersistentAbsenteesByYearChart = () => {
+  //States and contexts
   const Auth0 = useAuth0();
   const controller = new StudentController();
   const [data, setData] = useState([]);
   const [showPersistent, setShowPersistent] = useState(true);
   const appContext = useContext(AppContext);
+  //This lifecycle hook is triggered when the risk levels are updated or persistent state is changed
   useEffect(() => {
     if(showPersistent){
       GetPersistentAbsentees();
@@ -20,12 +22,14 @@ const PersistentAbsenteesByYearChart = () => {
     }
   },[showPersistent,appContext.riskStudentThreshold])
 
+  //This function retrieves persitent absentees from the backend 
   async function GetPersistentAbsentees(){
     const token = await Auth0.getAccessTokenSilently();
     let response = await controller.GetPersistentAbsenteesByYear(token, appContext.riskStudentThreshold);
     setData(response);
   }
 
+  //This function retrieves not attending students from the backend 
   async function GetNotAttendingAbsentees(){
     const token = await Auth0.getAccessTokenSilently();
     let response = await controller.NonAttendingStudentsByYear(token);

@@ -24,6 +24,7 @@ import PieChart from './PieChart';
 
 
 function StudentPage(props:any) {
+    //States and contexts
     const Auth0 = useAuth0();
     const controller = new StudentController();
     const userController = new UserController();
@@ -39,12 +40,13 @@ function StudentPage(props:any) {
     const appContext = useContext(AppContext);
     
     
-
+    //This lifecycle hook is triggered on first load
     useEffect(() => {  
         appContext.setSearchBarValue("");
         fetchData();
     },[])
 
+    //This function is responsible for retrieving information about a student
     async function fetchData(){        
         const token = await Auth0.getAccessTokenSilently();
         const response = await controller.GetStudent(props.match.params.student, token);
@@ -55,6 +57,8 @@ function StudentPage(props:any) {
             enqueueSnackbar('Student not found!', { variant: "error" });
         }
     }
+
+    //This function is responsible for injecting the charts and personal infomration into pdf and opening it in a new tab
     const printPDF = async() => {
         PDFDocument.prototype.addSVG = function(svg:any, x:any, y:any, options:any) {
             return SVGtoPDF(this, svg, x, y, options), this;
@@ -86,6 +90,7 @@ function StudentPage(props:any) {
         });
     }
 
+    //This function is used to update the metadata in Auth0 to change the tracked user list
     const updateTrackedStudents = async (action: string) => {
         const token = await Auth0.getAccessTokenSilently();
         let ids = appContext.trackedStudentsIds;
@@ -327,6 +332,7 @@ function StudentPage(props:any) {
                     }
                 </>
             :
+                //Loading animation
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} color="secondary">
                     <Player
                         autoplay
