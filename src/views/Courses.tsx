@@ -121,6 +121,7 @@ const Students = () => {
             autoplay
             loop
             src={Loading}
+            style={{ height: '40%', width: '40%' }}
           >
           </Player>
         </div>

@@ -57,7 +57,7 @@ function StudentsTable() {
             component="div"
             count={showPersistent ? absenceCount: notAttendingStudents}
             page={page}
-            onChangePage={(event, page) => setPage(page)}
+            onPageChange={(event, page) => setPage(page)}
             rowsPerPage={5}
             rowsPerPageOptions={[]}
         />
